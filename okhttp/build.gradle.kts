@@ -56,12 +56,12 @@ normalization {
   }
 }
 
-val copyJavaTemplates by tasks.register<Copy>("copyJavaTemplates") {
+tasks.register<Copy>("copyJavaTemplates") {
   from("src/main/java-templates")
   into("$buildDir/generated/sources/java-templates/java/main")
   expand("projectVersion" to "${project.version}")
   filteringCharset = StandardCharsets.UTF_8.toString()
-}
+}.let(tasks.check::dependsOn)
 
 tasks.getByName<KotlinCompile>("compileKotlin") {
   dependsOn("copyJavaTemplates")
@@ -76,12 +76,10 @@ configurations {
   create("osgiTestDeploy")
 }
 
-val copyOsgiTestDeployment by tasks.register<Copy>("copyOsgiTestDeployment") {
+tasks.register<Copy>("copyOsgiTestDeployment") {
   from(configurations["osgiTestDeploy"])
   into("${buildDir}/resources/test/okhttp3/osgi/deployments")
-}
-
-tasks.test.dependsOn(copyOsgiTestDeployment)
+}.let(tasks.check::dependsOn)
 
 dependencies {
   api(Dependencies.okio)
@@ -130,7 +128,7 @@ afterEvaluate {
   }
 }
 
-val japicmp by tasks.register<JapicmpTask>("japicmp") {
+tasks.register<JapicmpTask>("japicmp") {
   dependsOn("jar")
   oldClasspath = files(Projects.baselineJar(project))
   newClasspath = files(tasks.jar.get().archiveFile)
@@ -191,6 +189,4 @@ val japicmp by tasks.register<JapicmpTask>("japicmp") {
     "okhttp3.OkHttpClient#writeTimeoutMillis()",
     "okhttp3.Request\$Builder#delete()",
   )
-}
-
-tasks.check.dependsOn(japicmp)
+}.let(tasks.check::dependsOn)
