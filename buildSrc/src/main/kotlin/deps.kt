@@ -35,6 +35,10 @@ object Dependencies {
   const val graalPlugin = "gradle.plugin.com.palantir.graal:gradle-graal:0.9.0"
   const val bndPlugin = "biz.aQute.bnd:biz.aQute.bnd.gradle:${Versions.bnd}"
   const val shadowPlugin = "gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0"
+  const val japicmpPlugin = "me.champeau.gradle:japicmp-gradle-plugin:0.2.9"
+  const val animalsnifferPlugin = "ru.vyarus:gradle-animalsniffer-plugin:1.5.3"
+  const val errorpronePlugin = "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
+  const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:5.14.2"
 
   const val android = "org.robolectric:android-all:11-robolectric-6757853"
   const val animalSniffer = "org.codehaus.mojo:animal-sniffer-annotations:1.20"
