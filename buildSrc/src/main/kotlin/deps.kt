@@ -85,4 +85,6 @@ object Dependencies {
   const val nativeImageSvm = "org.graalvm.nativeimage:svm:21.2.0"
   const val jettyClient = "org.eclipse.jetty:jetty-client:9.4.27.v20200227"
   const val checkStyle = "com.puppycrawl.tools:checkstyle:${Versions.checkStyle}"
+  const val signatureAndroid21 = "net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature"
+  const val signatureJava18 = "org.codehaus.mojo.signature:java18:1.0@signature"
 }
