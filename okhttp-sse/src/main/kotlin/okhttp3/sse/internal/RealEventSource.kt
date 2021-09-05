@@ -35,10 +35,10 @@ class RealEventSource(
   private lateinit var call: RealCall
 
   fun connect(client: OkHttpClient) {
-    val client = client.newBuilder()
+    val okHttpClient = client.newBuilder()
         .eventListener(EventListener.NONE)
         .build()
-    call = client.newCall(request) as RealCall
+    call = okHttpClient.newCall(request) as RealCall
     call.enqueue(this)
   }
 
@@ -65,17 +65,17 @@ class RealEventSource(
       call.timeoutEarlyExit()
 
       // Replace the body with an empty one so the callbacks can't see real data.
-      val response = response.newBuilder()
+      val resp = response.newBuilder()
           .body(EMPTY_RESPONSE)
           .build()
 
       val reader = ServerSentEventReader(body.source(), this)
       try {
-        listener.onOpen(this, response)
+        listener.onOpen(this, resp)
         while (reader.processNextEvent()) {
         }
       } catch (e: Exception) {
-        listener.onFailure(this, e, response)
+        listener.onFailure(this, e, resp)
         return
       }
       listener.onClosed(this)

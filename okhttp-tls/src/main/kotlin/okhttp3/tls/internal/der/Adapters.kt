@@ -293,6 +293,7 @@ internal object Adapters {
         val list = decompose(value)
         writer.withTypeHint {
           for (i in list.indices) {
+            @Suppress("UNCHECKED_CAST")
             val adapter = members[i] as DerAdapter<Any?>
             adapter.toDer(writer, list[i])
           }
@@ -326,6 +327,7 @@ internal object Adapters {
 
       override fun toDer(writer: DerWriter, value: Pair<DerAdapter<*>, Any?>) {
         val (adapter, v) = value
+        @Suppress("UNCHECKED_CAST")
         (adapter as DerAdapter<Any?>).toDer(writer, v)
       }
 
@@ -351,6 +353,7 @@ internal object Adapters {
       override fun toDer(writer: DerWriter, value: Any?) {
         // If we don't understand this hint, encode the body as a byte string. The byte string
         // will include a tag and length header as a prefix.
+        @Suppress("UNCHECKED_CAST")
         val adapter = chooser(writer.typeHint) as DerAdapter<Any?>?
         when {
           adapter != null -> adapter.toDer(writer, value)
@@ -359,6 +362,7 @@ internal object Adapters {
       }
 
       override fun fromDer(reader: DerReader): Any? {
+        @Suppress("UNCHECKED_CAST")
         val adapter = chooser(reader.typeHint) as DerAdapter<Any?>?
         return when {
           adapter != null -> adapter.fromDer(reader)
@@ -405,6 +409,7 @@ internal object Adapters {
           else -> {
             for ((type, adapter) in choices) {
               if (type.isInstance(value) || (value == null && type == Unit::class)) {
+                @Suppress("UNCHECKED_CAST")
                 (adapter as DerAdapter<Any?>).toDer(writer, value)
                 return
               }

@@ -264,10 +264,10 @@ internal class DerTest {
       assertThat(header.tagClass).isEqualTo(DerHeader.TAG_CLASS_CONTEXT_SPECIFIC)
       assertThat(header.length).isEqualTo(7L)
 
-      derReader.read("test") { header ->
-        assertThat(header.tag).isEqualTo(3L)
-        assertThat(header.tagClass).isEqualTo(DerHeader.TAG_CLASS_APPLICATION)
-        assertThat(header.length).isEqualTo(5L)
+      derReader.read("test") {
+        assertThat(it.tag).isEqualTo(3L)
+        assertThat(it.tagClass).isEqualTo(DerHeader.TAG_CLASS_APPLICATION)
+        assertThat(it.length).isEqualTo(5L)
         assertThat(derReader.readOctetString()).isEqualTo("Jones".encodeUtf8())
       }
 

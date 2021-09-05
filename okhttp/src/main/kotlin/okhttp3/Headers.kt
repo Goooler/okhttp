@@ -379,9 +379,9 @@ class Headers private constructor(
       require(namesAndValues.size % 2 == 0) { "Expected alternating header names and values" }
 
       // Make a defensive copy and clean it up.
+      @Suppress("UNCHECKED_CAST")
       val namesAndValues: Array<String> = namesAndValues.clone() as Array<String>
       for (i in namesAndValues.indices) {
-        require(namesAndValues[i] != null) { "Headers cannot be null" }
         namesAndValues[i] = namesAndValues[i].trim()
       }
 
@@ -422,6 +422,7 @@ class Headers private constructor(
         i += 2
       }
 
+      @Suppress("UNCHECKED_CAST")
       return Headers(namesAndValues as Array<String>)
     }
 

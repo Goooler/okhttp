@@ -185,7 +185,7 @@ class CancelTest {
           Buffer()
             .write(ByteArray(responseBodySize))
         )
-        .throttleBody(64 * 1024, 125, MILLISECONDS)
+        .throttleBody(64 * 1024L, 125, MILLISECONDS)
     ) // 500 Kbps
     val call = client.newCall(
       Request.Builder()
@@ -218,7 +218,7 @@ class CancelTest {
           Buffer()
             .write(ByteArray(responseBodySize))
         )
-        .throttleBody(64 * 1024, 125, MILLISECONDS)
+        .throttleBody(64 * 1024L, 125, MILLISECONDS)
     ) // 500 Kbps
     server.enqueue(MockResponse().apply {
       setResponseCode(200)

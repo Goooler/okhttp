@@ -61,9 +61,9 @@ class SessionReuseTest(
 
     enableTls()
 
-    val tlsVersion = TlsVersion.forJavaName(tlsVersion)
+    val tlsv = TlsVersion.forJavaName(tlsVersion)
     val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-      .tlsVersions(tlsVersion)
+      .tlsVersions(tlsv)
       .build()
 
     var reuseSession = false
@@ -123,7 +123,7 @@ class SessionReuseTest(
       sslContext.clientSessionContext.ids.toList().map { it.toByteString().hex() }
 
     if (platform.isConscrypt()) {
-      if (tlsVersion == TlsVersion.TLS_1_3) {
+      if (tlsv == TlsVersion.TLS_1_3) {
         assertThat(sessionIds[0]).isBlank()
         assertThat(sessionIds[1]).isBlank()
 
@@ -136,7 +136,7 @@ class SessionReuseTest(
         assertThat(directSessionIds).containsExactlyInAnyOrder(sessionIds[1])
       }
     } else {
-      if (tlsVersion == TlsVersion.TLS_1_3) {
+      if (tlsv == TlsVersion.TLS_1_3) {
         // We can't rely on the same session id with TLSv1.3 ids.
         assertNotEquals(sessionIds[0], sessionIds[1])
       } else {

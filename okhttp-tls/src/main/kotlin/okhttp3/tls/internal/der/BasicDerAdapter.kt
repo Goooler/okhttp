@@ -55,6 +55,7 @@ internal data class BasicDerAdapter<T>(
   override fun fromDer(reader: DerReader): T {
     val peekedHeader = reader.peekHeader()
     if (peekedHeader == null || peekedHeader.tagClass != tagClass || peekedHeader.tag != tag) {
+      @Suppress("UNCHECKED_CAST")
       if (isOptional) return defaultValue as T
       throw ProtocolException("expected $this but was $peekedHeader at $reader")
     }
