@@ -31,9 +31,9 @@ object OkHttpDebugLogging {
   // Keep references to loggers to prevent their configuration from being GC'd.
   private val configuredLoggers = CopyOnWriteArraySet<Logger>()
 
-  fun enableHttp2() = enable(Http2::class)
+  fun enableHttp2(): Closeable = enable(Http2::class)
 
-  fun enableTaskRunner() = enable(TaskRunner::class)
+  fun enableTaskRunner(): Closeable = enable(TaskRunner::class)
 
   fun logHandler() = ConsoleHandler().apply {
     level = Level.FINE
@@ -54,5 +54,5 @@ object OkHttpDebugLogging {
     }
   }
 
-  fun enable(loggerClass: KClass<*>) = enable(loggerClass.java.name)
+  fun enable(loggerClass: KClass<*>): Closeable = enable(loggerClass.java.name)
 }

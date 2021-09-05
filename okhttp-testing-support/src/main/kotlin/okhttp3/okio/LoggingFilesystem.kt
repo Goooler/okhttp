@@ -52,10 +52,10 @@ class LoggingFilesystem(fileSystem: FileSystem) : ForwardingFileSystem(fileSyste
     super.delete(path)
   }
 
-  override fun sink(path: Path): Sink {
-    log("sink($path)")
+  override fun sink(file: Path): Sink {
+    log("sink($file)")
 
-    return super.sink(path)
+    return super.sink(file)
   }
 
   override fun source(file: Path): Source {

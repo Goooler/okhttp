@@ -242,8 +242,6 @@ class Cookie private constructor(
       if (httpOnly) {
         append("; httponly")
       }
-
-      return toString()
     }
   }
 

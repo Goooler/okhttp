@@ -20,6 +20,7 @@ import okio.BufferedSink
 
 open class ForwardingRequestBody(delegate: RequestBody?) : RequestBody() {
   private val delegate: RequestBody
+
   fun delegate(): RequestBody {
     return delegate
   }

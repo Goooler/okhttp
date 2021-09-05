@@ -198,21 +198,21 @@ open class PlatformRule @JvmOverloads constructor(
     }
   }
 
-  fun isConscrypt() = getPlatformSystemProperty() == CONSCRYPT_PROPERTY
+  fun isConscrypt(): Boolean = getPlatformSystemProperty() == CONSCRYPT_PROPERTY
 
-  fun isJdk9() = getPlatformSystemProperty() == JDK9_PROPERTY
+  fun isJdk9(): Boolean = getPlatformSystemProperty() == JDK9_PROPERTY
 
-  fun isJdk8() = getPlatformSystemProperty() == JDK8_PROPERTY
+  fun isJdk8(): Boolean = getPlatformSystemProperty() == JDK8_PROPERTY
 
-  fun isJdk8Alpn() = getPlatformSystemProperty() == JDK8_ALPN_PROPERTY
+  fun isJdk8Alpn(): Boolean = getPlatformSystemProperty() == JDK8_ALPN_PROPERTY
 
-  fun isBouncyCastle() = getPlatformSystemProperty() == BOUNCYCASTLE_PROPERTY
+  fun isBouncyCastle(): Boolean = getPlatformSystemProperty() == BOUNCYCASTLE_PROPERTY
 
-  fun isOpenJsse() = getPlatformSystemProperty() == OPENJSSE_PROPERTY
+  fun isOpenJsse(): Boolean = getPlatformSystemProperty() == OPENJSSE_PROPERTY
 
-  fun isGraalVMImage() = TestUtil.isGraalVmImage
+  fun isGraalVMImage(): Boolean = TestUtil.isGraalVmImage
 
-  fun hasHttp2Support() = !isJdk8()
+  fun hasHttp2Support(): Boolean = !isJdk8()
 
   fun assumeConscrypt() {
     assumeTrue(getPlatformSystemProperty() == CONSCRYPT_PROPERTY)
@@ -327,14 +327,14 @@ open class PlatformRule @JvmOverloads constructor(
     get() = Platform.Companion.isAndroid
 
   companion object {
-    const val PROPERTY_NAME = "okhttp.platform"
-    const val CONSCRYPT_PROPERTY = "conscrypt"
-    const val CORRETTO_PROPERTY = "corretto"
-    const val JDK9_PROPERTY = "jdk9"
-    const val JDK8_ALPN_PROPERTY = "jdk8alpn"
-    const val JDK8_PROPERTY = "jdk8"
-    const val OPENJSSE_PROPERTY = "openjsse"
-    const val BOUNCYCASTLE_PROPERTY = "bouncycastle"
+    const val PROPERTY_NAME: String = "okhttp.platform"
+    const val CONSCRYPT_PROPERTY: String = "conscrypt"
+    const val CORRETTO_PROPERTY: String = "corretto"
+    const val JDK9_PROPERTY: String = "jdk9"
+    const val JDK8_ALPN_PROPERTY: String = "jdk8alpn"
+    const val JDK8_PROPERTY: String = "jdk8"
+    const val OPENJSSE_PROPERTY: String = "openjsse"
+    const val BOUNCYCASTLE_PROPERTY: String = "bouncycastle"
 
     init {
       val platformSystemProperty = getPlatformSystemProperty()
@@ -406,22 +406,22 @@ open class PlatformRule @JvmOverloads constructor(
     }
 
     @JvmStatic
-    fun conscrypt() = PlatformRule(CONSCRYPT_PROPERTY)
+    fun conscrypt(): PlatformRule = PlatformRule(CONSCRYPT_PROPERTY)
 
     @JvmStatic
-    fun openjsse() = PlatformRule(OPENJSSE_PROPERTY)
+    fun openjsse(): PlatformRule = PlatformRule(OPENJSSE_PROPERTY)
 
     @JvmStatic
-    fun jdk9() = PlatformRule(JDK9_PROPERTY)
+    fun jdk9(): PlatformRule = PlatformRule(JDK9_PROPERTY)
 
     @JvmStatic
-    fun jdk8() = PlatformRule(JDK8_PROPERTY)
+    fun jdk8(): PlatformRule = PlatformRule(JDK8_PROPERTY)
 
     @JvmStatic
-    fun jdk8alpn() = PlatformRule(JDK8_ALPN_PROPERTY)
+    fun jdk8alpn(): PlatformRule = PlatformRule(JDK8_ALPN_PROPERTY)
 
     @JvmStatic
-    fun bouncycastle() = PlatformRule(BOUNCYCASTLE_PROPERTY)
+    fun bouncycastle(): PlatformRule = PlatformRule(BOUNCYCASTLE_PROPERTY)
 
     @JvmStatic
     fun isAlpnBootEnabled(): Boolean = try {

@@ -117,7 +117,7 @@ open class RecordingEventListener : EventListener() {
     return result
   }
 
-  fun recordedEventTypes() = eventSequence.map { it.name }
+  fun recordedEventTypes(): List<String> = eventSequence.map { it.name }
 
   fun clearAllEvents() {
     while (eventSequence.isNotEmpty()) {

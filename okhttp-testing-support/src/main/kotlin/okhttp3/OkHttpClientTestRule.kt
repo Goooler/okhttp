@@ -47,10 +47,10 @@ class OkHttpClientTestRule : BeforeEachCallback, AfterEachCallback {
 
   var logger: Logger? = null
 
-  var recordEvents = true
-  var recordTaskRunner = false
-  var recordFrames = false
-  var recordSslDebug = false
+  var recordEvents: Boolean = true
+  var recordTaskRunner: Boolean = false
+  var recordFrames: Boolean = false
+  var recordSslDebug: Boolean = false
 
   private val sslExcludeFilter = "^(?:Inaccessible trust store|trustStore is|Reload the trust store|Reload trust certs|Reloaded|adding as trusted certificates|Ignore disabled cipher suite|Ignore unsupported cipher suite).*".toRegex()
 
@@ -95,10 +95,10 @@ class OkHttpClientTestRule : BeforeEachCallback, AfterEachCallback {
     Logger.getLogger("javax.net.ssl").fn()
   }
 
-  fun wrap(eventListener: EventListener) =
+  fun wrap(eventListener: EventListener): EventListener.Factory =
     EventListener.Factory { ClientRuleEventListener(eventListener, ::addEvent) }
 
-  fun wrap(eventListenerFactory: EventListener.Factory) =
+  fun wrap(eventListenerFactory: EventListener.Factory): EventListener.Factory =
     EventListener.Factory { call -> ClientRuleEventListener(eventListenerFactory.create(call), ::addEvent) }
 
   /**

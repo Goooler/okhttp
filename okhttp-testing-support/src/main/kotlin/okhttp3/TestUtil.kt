@@ -19,7 +19,6 @@ import java.io.File
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.UnknownHostException
-import java.util.Arrays
 import okhttp3.internal.http2.Header
 import okio.Buffer
 import org.junit.jupiter.api.Assumptions.assumeFalse
@@ -30,11 +29,11 @@ object TestUtil {
   val UNREACHABLE_ADDRESS = InetSocketAddress("198.51.100.1", 8080)
 
   /** See `org.graalvm.nativeimage.ImageInfo`. */
-  @JvmStatic val isGraalVmImage = System.getProperty("org.graalvm.nativeimage.imagecode") != null
+  @JvmStatic val isGraalVmImage: Boolean = System.getProperty("org.graalvm.nativeimage.imagecode") != null
 
   @JvmStatic
-  fun headerEntries(vararg elements: String?): List<Header> {
-    return List(elements.size / 2) { Header(elements[it * 2]!!, elements[it * 2 + 1]!!) }
+  fun headerEntries(vararg elements: String): List<Header> {
+    return List(elements.size / 2) { Header(elements[it * 2], elements[it * 2 + 1]) }
   }
 
   @JvmStatic
@@ -43,7 +42,7 @@ object TestUtil {
     count: Int
   ): String {
     val array = CharArray(count)
-    Arrays.fill(array, c)
+    array.fill(c)
     return String(array)
   }
 
@@ -73,9 +72,11 @@ object TestUtil {
   }
 
   tailrec fun File.isDescendentOf(directory: File): Boolean {
-    val parentFile = parentFile ?: return false
-    if (parentFile == directory) return true
-    return parentFile.isDescendentOf(directory)
+    return when (parentFile) {
+      null -> false
+      directory -> true
+      else -> parentFile.isDescendentOf(directory)
+    }
   }
 
   /**

@@ -66,12 +66,11 @@ class FakeDns : Dns {
           throw AssertionError("too many addresses allocated")
         }
         result.add(
-            InetAddress.getByAddress(
-                byteArrayOf(
-                    255.toByte(), 0.toByte(), 0.toByte(),
-                    nextAddress++.toByte()
-                )
+          InetAddress.getByAddress(
+            byteArrayOf(
+              255.toByte(), 0.toByte(), 0.toByte(), nextAddress++.toByte()
             )
+          )
         )
       }
       result
