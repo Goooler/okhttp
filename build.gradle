@@ -28,6 +28,7 @@ allprojects {
   repositories {
     mavenCentral()
     google()
+    maven {url "https://maven.aliyun.com/repository/public"}
   }
 
   task downloadDependencies() {
