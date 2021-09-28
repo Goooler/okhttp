@@ -20,7 +20,7 @@ object Versions {
   const val checkStyle = "9.0"
   const val conscrypt = "2.5.2"
   const val junit5 = "5.8.1"
-  const val junit5Android = "1.2.2"
+  const val junit5Android = "1.3.0"
   const val kotlin = "1.5.31"
   const val moshi = "1.12.0"
   const val okio = "3.0.0-alpha.10"
