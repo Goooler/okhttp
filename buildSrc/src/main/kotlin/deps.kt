@@ -15,9 +15,9 @@
  */
 
 object Versions {
-  const val bnd = "5.3.0"
+  const val bnd = "6.0.0"
   const val bouncyCastle = "1.69"
-  const val checkStyle = "9.0"
+  const val checkStyle = "9.0.1"
   const val conscrypt = "2.5.2"
   const val junit5 = "5.8.1"
   const val junit5Android = "1.3.0"
@@ -38,7 +38,7 @@ object Dependencies {
   const val japicmpPlugin = "me.champeau.gradle:japicmp-gradle-plugin:0.3.0"
   const val animalsnifferPlugin = "ru.vyarus:gradle-animalsniffer-plugin:1.5.3"
   const val errorpronePlugin = "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
-  const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:5.15.0"
+  const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:5.16.0"
 
   const val android = "org.robolectric:android-all:11-robolectric-6757853"
   const val animalSniffer = "org.codehaus.mojo:animal-sniffer-annotations:1.20"
@@ -55,7 +55,7 @@ object Dependencies {
   const val guava = "com.google.guava:guava:31.0.1-jre"
   const val hamcrest = "org.hamcrest:hamcrest-library:2.2"
   const val jnrUnixsocket = "com.github.jnr:jnr-unixsocket:0.38.11"
-  const val jsoup = "org.jsoup:jsoup:1.14.2"
+  const val jsoup = "org.jsoup:jsoup:1.14.3"
   const val jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
   const val junit = "junit:junit:4.13.2"
   const val junit5Api = "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}"
