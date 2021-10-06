@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import aQute.bnd.gradle.BundleTaskConvention
+import aQute.bnd.gradle.BundleTaskExtension
 import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.withConvention
+import org.gradle.kotlin.dsl.getByName
 
 object Projects {
   /** Returns the artifact ID for the project, or null if it is not published. */
@@ -50,9 +51,9 @@ object Projects {
   fun applyOsgi(project: Project, vararg bndProperties: String) {
     project.run {
       apply(plugin = "biz.aQute.bnd.builder")
-      sourceSets.create("osgi")
-      tasks["jar"].withConvention(BundleTaskConvention::class) {
-        setClasspath(sourceSets["osgi"].compileClasspath + project.sourceSets["main"].compileClasspath)
+      val osgi = sourceSets.create("osgi")
+      tasks.getByName<Jar>("jar").extensions.configure<BundleTaskExtension>(BundleTaskExtension.NAME) {
+        setClasspath(osgi.compileClasspath + project.sourceSets["main"].compileClasspath)
         bnd(*bndProperties)
       }
       dependencies.add("osgiApi", Dependencies.kotlinStdlibOsgi)
