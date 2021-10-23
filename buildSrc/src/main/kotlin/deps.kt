@@ -25,6 +25,7 @@ object Versions {
   const val moshi = "1.12.0"
   const val okio = "3.0.0-alpha.10"
   const val picocli = "4.6.1"
+  const val graal = "21.3.0"
 }
 
 object Dependencies {
@@ -38,7 +39,7 @@ object Dependencies {
   const val japicmpPlugin = "me.champeau.gradle:japicmp-gradle-plugin:0.3.0"
   const val animalsnifferPlugin = "ru.vyarus:gradle-animalsniffer-plugin:1.5.3"
   const val errorpronePlugin = "net.ltgt.gradle:gradle-errorprone-plugin:2.0.2"
-  const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:5.16.0"
+  const val spotlessPlugin = "com.diffplug.spotless:spotless-plugin-gradle:5.17.0"
 
   const val android = "org.robolectric:android-all:11-robolectric-6757853"
   const val animalSniffer = "org.codehaus.mojo:animal-sniffer-annotations:1.20"
@@ -74,7 +75,7 @@ object Dependencies {
   const val moshiCompiler = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
   const val okio = "com.squareup.okio:okio:${Versions.okio}"
   const val okioFakeFileSystem = "com.squareup.okio:okio-fakefilesystem:${Versions.okio}"
-  const val openjsse = "org.openjsse:openjsse:1.1.7"
+  const val openjsse = "org.openjsse:openjsse:1.1.8"
   const val picocli = "info.picocli:picocli:${Versions.picocli}"
   const val picocliCompiler = "info.picocli:picocli-codegen:${Versions.picocli}"
   const val playServicesSafetynet = "com.google.android.gms:play-services-safetynet:17.0.1"
@@ -82,7 +83,7 @@ object Dependencies {
   const val androidxEspressoCore = "androidx.test.espresso:espresso-core:3.4.0"
   const val androidxTestRunner = "androidx.test:runner:1.4.0"
   const val httpclient5 = "org.apache.httpcomponents.client5:httpclient5:5.0"
-  const val nativeImageSvm = "org.graalvm.nativeimage:svm:21.2.0"
+  const val nativeImageSvm = "org.graalvm.nativeimage:svm:${Versions.graal}"
   const val jettyClient = "org.eclipse.jetty:jetty-client:9.4.27.v20200227"
   const val checkStyle = "com.puppycrawl.tools:checkstyle:${Versions.checkStyle}"
   const val signatureAndroid21 = "net.sf.androidscents.signature:android-api-level-21:5.0.1_r2@signature"
