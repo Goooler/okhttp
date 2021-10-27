@@ -103,14 +103,14 @@ class DiskLruCache(
   taskRunner: TaskRunner
 ) : Closeable, Flushable {
   internal val fileSystem: FileSystem = object : ForwardingFileSystem(fileSystem) {
-    override fun sink(file: Path): Sink {
+    override fun sink(file: Path, mustCreate: Boolean): Sink {
       file.parent?.let {
         // TODO from okhttp3.internal.io.FileSystem
         if (!exists(it)) {
           createDirectories(it)
         }
       }
-      return super.sink(file)
+      return super.sink(file, mustCreate)
     }
   }
 

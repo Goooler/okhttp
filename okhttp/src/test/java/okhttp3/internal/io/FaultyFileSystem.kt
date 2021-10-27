@@ -73,9 +73,13 @@ class FaultyFileSystem constructor(delegate: FileSystem?) : ForwardingFileSystem
     super.deleteRecursively(fileOrDirectory)
   }
 
-  override fun appendingSink(file: Path): Sink = FaultySink(super.appendingSink(file), file)
+  override fun appendingSink(file: Path, mustExist: Boolean): Sink {
+    return FaultySink(super.appendingSink(file, mustExist), file)
+  }
 
-  override fun sink(file: Path): Sink = FaultySink(super.sink(file), file)
+  override fun sink(file: Path, mustCreate: Boolean): Sink {
+    return FaultySink(super.sink(file, mustCreate), file)
+  }
 
   inner class FaultySink(sink: Sink, private val file: Path) : ForwardingSink(sink) {
     override fun write(source: Buffer, byteCount: Long) {

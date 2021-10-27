@@ -2503,7 +2503,7 @@ public final class CacheTest {
   }
 
   private void writeFile(Path directory, String file, String content) throws IOException {
-    BufferedSink sink = Okio.buffer(fileSystem.sink(directory.resolve(file)));
+    BufferedSink sink = Okio.buffer(fileSystem.sink(directory.resolve(file), false));
     sink.writeUtf8(content);
     sink.close();
   }
