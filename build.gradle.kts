@@ -34,7 +34,7 @@ buildscript {
 apply(plugin = "com.vanniktech.maven.publish.base")
 
 plugins.withType<NodeJsRootPlugin> {
-  the<NodeJsRootExtension>().nodeVersion = "16.13.2"
+  the<NodeJsRootExtension>().nodeVersion = "16.0.0"
 }
 
 allprojects {
