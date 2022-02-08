@@ -86,7 +86,6 @@ subprojects {
   configure<JavaPluginExtension> {
     toolchain {
       languageVersion.set(JavaLanguageVersion.of(11))
-      vendor.set(JvmVendorSpec.AZUL)
     }
   }
 
@@ -141,12 +140,14 @@ subprojects {
 
   tasks.withType<Test> {
     useJUnitPlatform()
-    jvmArgs = jvmArgs!! + listOf("-Dokhttp.platform=$platform")
+    jvmArgs = jvmArgs!! + listOf(
+      "-Dokhttp.platform=$platform",
+      "-XX:+HeapDumpOnOutOfMemoryError"
+    )
 
     val javaToolchains = project.extensions.getByType<JavaToolchainService>()
     javaLauncher.set(javaToolchains.launcherFor {
       languageVersion.set(JavaLanguageVersion.of(testJavaVersion))
-      vendor.set(JvmVendorSpec.AZUL)
     })
 
     maxParallelForks = Runtime.getRuntime().availableProcessors() * 2
@@ -207,6 +208,9 @@ subprojects {
         url.set(URL("https://square.github.io/okio/2.x/okio/"))
         packageListUrl.set(URL("https://square.github.io/okio/2.x/okio/package-list"))
       }
+    }
+    if (name == "dokkaGfm") {
+      outputDirectory.set(file("${rootDir}/docs/4.x"))
     }
   }
 

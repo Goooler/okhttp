@@ -19,6 +19,7 @@ import java.io.IOException
 import java.io.InterruptedIOException
 import java.lang.ref.WeakReference
 import java.net.Socket
+import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.RejectedExecutionException
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -84,7 +85,7 @@ class RealCall(
   private var callStackTrace: Any? = null
 
   /** Finds an exchange to send the next request and receive the next response. */
-  private var exchangeFinder: ExchangeFinder? = null
+  private var routePlanner: RoutePlanner? = null
 
   var connection: RealConnection? = null
     private set
@@ -115,7 +116,7 @@ class RealCall(
 
   @Volatile private var canceled = false
   @Volatile private var exchange: Exchange? = null
-  @Volatile var connectionToCancel: RealConnection? = null
+  internal val connectionsToCancel = CopyOnWriteArrayList<RealConnection>()
 
   override fun timeout(): Timeout = timeout
 
@@ -138,7 +139,9 @@ class RealCall(
 
     canceled = true
     exchange?.cancel()
-    connectionToCancel?.cancel()
+    for (connection in connectionsToCancel) {
+      connection.cancel()
+    }
 
     eventListener.canceled(this)
   }
@@ -221,9 +224,13 @@ class RealCall(
    *
    * Note that an exchange will not be needed if the request is satisfied by the cache.
    *
-   * @param newExchangeFinder true if this is not a retry and new routing can be performed.
+   * @param newRoutePlanner true if this is not a retry and new routing can be performed.
    */
-  fun enterNetworkInterceptorExchange(request: Request, newExchangeFinder: Boolean) {
+  fun enterNetworkInterceptorExchange(
+    request: Request,
+    newRoutePlanner: Boolean,
+    chain: RealInterceptorChain,
+  ) {
     check(interceptorScopedExchange == null)
 
     synchronized(this) {
@@ -234,13 +241,12 @@ class RealCall(
       check(!requestBodyOpen)
     }
 
-    if (newExchangeFinder) {
-      this.exchangeFinder = ExchangeFinder(
-        client.taskRunner,
-        connectionPool,
+    if (newRoutePlanner) {
+      this.routePlanner = RealRoutePlanner(
+        client,
         createAddress(request.url),
         this,
-        eventListener
+        chain,
       )
     }
   }
@@ -253,9 +259,13 @@ class RealCall(
       check(!requestBodyOpen)
     }
 
-    val exchangeFinder = this.exchangeFinder!!
-    val codec = exchangeFinder.find(client, chain)
-    val result = Exchange(this, eventListener, exchangeFinder, codec)
+    val routePlanner = this.routePlanner!!
+    val connection = when {
+      client.fastFallback -> FastFallbackExchangeFinder(routePlanner, client.taskRunner).find()
+      else -> ExchangeFinder(routePlanner).find()
+    }
+    val codec = connection.newCodec(client, chain)
+    val result = Exchange(this, eventListener, routePlanner, codec)
     this.interceptorScopedExchange = result
     this.exchange = result
     synchronized(this) {
@@ -348,14 +358,14 @@ class RealCall(
     val connection = this.connection
     if (connection != null) {
       connection.assertThreadDoesntHoldLock()
-      val socket = synchronized(connection) {
+      val toClose: Socket? = synchronized(connection) {
         releaseConnectionNoEvents() // Sets this.connection to null.
       }
       if (this.connection == null) {
-        socket?.closeQuietly()
+        toClose?.closeQuietly()
         eventListener.connectionReleased(this, connection)
       } else {
-        check(socket == null) // If we still have a connection we shouldn't be closing any sockets.
+        check(toClose == null) // If we still have a connection we shouldn't be closing any sockets.
       }
     }
 
@@ -455,7 +465,7 @@ class RealCall(
     )
   }
 
-  fun retryAfterFailure(): Boolean = exchangeFinder!!.retryAfterFailure()
+  fun retryAfterFailure(): Boolean = routePlanner!!.hasFailure() && routePlanner!!.hasMoreRoutes()
 
   /**
    * Returns a string that describes this call. Doesn't include a full URL as that might contain
