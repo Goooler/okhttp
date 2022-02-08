@@ -3,8 +3,6 @@ import com.vanniktech.maven.publish.SonatypeHost
 import java.net.URL
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension
 
@@ -32,10 +30,6 @@ buildscript {
 }
 
 apply(plugin = "com.vanniktech.maven.publish.base")
-
-plugins.withType<NodeJsRootPlugin> {
-  the<NodeJsRootExtension>().nodeVersion = "16.0.0"
-}
 
 allprojects {
   group = "com.squareup.okhttp3"
