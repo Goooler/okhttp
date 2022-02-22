@@ -32,7 +32,7 @@ class UppercaseRequestInterceptor : Interceptor {
 
   /** Returns a request that transforms `request` to be all uppercase.  */
   private fun uppercaseRequest(request: Request): Request {
-    val uppercaseBody: RequestBody = object : ForwardingRequestBody(request.body) {
+    val uppercaseBody: RequestBody = object : ForwardingRequestBody(request.body!!) {
       @Throws(IOException::class)
       override fun writeTo(sink: BufferedSink) {
         delegate().writeTo(uppercaseSink(sink).buffer())

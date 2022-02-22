@@ -31,7 +31,7 @@ class UppercaseResponseInterceptor : Interceptor {
 
   private fun uppercaseResponse(response: Response): Response {
     val uppercaseBody: ResponseBody =
-      object : ForwardingResponseBody(response.body) {
+      object : ForwardingResponseBody(response.body!!) {
         override fun source(): BufferedSource {
           return uppercaseSource(delegate().source()).buffer()
         }
