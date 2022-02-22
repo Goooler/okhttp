@@ -16,6 +16,7 @@
 package okhttp3.recipes.kt
 
 import java.io.IOException
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -27,7 +28,7 @@ class PostStreaming {
 
   fun run() {
     val requestBody = object : RequestBody() {
-      override fun contentType() = MEDIA_TYPE_MARKDOWN
+      override fun contentType(): MediaType = MEDIA_TYPE_MARKDOWN
 
       override fun writeTo(sink: BufferedSink) {
         sink.writeUtf8("Numbers\n")

@@ -46,10 +46,10 @@ actual abstract class ResponseBody : Closeable {
   actual abstract fun source(): BufferedSource
 
   @Throws(IOException::class)
-  actual fun bytes() = commonBytes()
+  actual fun bytes(): ByteArray = commonBytes()
 
   @Throws(IOException::class)
-  actual fun byteString() = commonByteString()
+  actual fun byteString(): ByteString = commonByteString()
 
   /**
    * Returns the response as a character stream.
@@ -74,7 +74,9 @@ actual abstract class ResponseBody : Closeable {
 
   private fun charset() = contentType().charset()
 
-  actual override fun close() = commonClose()
+  actual override fun close() {
+    commonClose()
+  }
 
   internal class BomAwareReader(
     private val source: BufferedSource,
@@ -99,7 +101,7 @@ actual abstract class ResponseBody : Closeable {
     @Throws(IOException::class)
     override fun close() {
       closed = true
-      delegate?.close() ?: run { source.close() }
+      delegate?.close() ?: source.close()
     }
   }
 

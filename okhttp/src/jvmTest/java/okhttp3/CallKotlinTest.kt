@@ -107,9 +107,7 @@ class CallKotlinTest(
   @Test
   fun testHeadAfterPut() {
     class ErringRequestBody : RequestBody() {
-      override fun contentType(): MediaType {
-        return "application/xml".toMediaType()
-      }
+      override fun contentType(): MediaType = "application/xml".toMediaType()
 
       override fun writeTo(sink: BufferedSink) {
         sink.writeUtf8("<el")
@@ -119,9 +117,7 @@ class CallKotlinTest(
     }
 
     class ValidRequestBody : RequestBody() {
-      override fun contentType(): MediaType {
-        return "application/xml".toMediaType()
-      }
+      override fun contentType(): MediaType = "application/xml".toMediaType()
 
       override fun writeTo(sink: BufferedSink) {
         sink.writeUtf8("<element/>")

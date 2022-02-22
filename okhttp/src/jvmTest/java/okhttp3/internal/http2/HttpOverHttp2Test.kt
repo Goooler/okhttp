@@ -2252,7 +2252,7 @@ class HttpOverHttp2Test {
       Request.Builder()
         .url(server.url("/"))
         .post(object : RequestBody() {
-          override fun contentType() = "text/plain; charset=utf-8".toMediaType()
+          override fun contentType(): MediaType = "text/plain; charset=utf-8".toMediaType()
 
           override fun writeTo(sink: BufferedSink) {
             callReference.get()!!.cancel()

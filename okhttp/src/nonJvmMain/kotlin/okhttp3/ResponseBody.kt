@@ -33,9 +33,9 @@ actual abstract class ResponseBody : Closeable {
 
   actual abstract fun source(): BufferedSource
 
-  actual fun bytes() = commonBytes()
+  actual fun bytes(): ByteArray = commonBytes()
 
-  actual fun byteString() = commonByteString()
+  actual fun byteString(): ByteString = commonByteString()
 
   actual fun string(): String {
     val charset = contentType()?.parameter("charset") ?: "UTF-8"
@@ -45,7 +45,9 @@ actual abstract class ResponseBody : Closeable {
     return source().readUtf8()
   }
 
-  actual override fun close() = commonClose()
+  actual override fun close() {
+    commonClose()
+  }
 
   actual companion object {
     actual fun String.toResponseBody(contentType: MediaType?): ResponseBody {

@@ -1997,9 +1997,7 @@ open class CallTest(
       .url(server.url("/"))
       .post(object : RequestBody() {
         var attempt = 0
-        override fun contentType(): MediaType? {
-          return null
-        }
+        override fun contentType(): MediaType? = null
 
         override fun writeTo(sink: BufferedSink) {
           sink.writeUtf8("attempt " + attempt++)
@@ -2029,9 +2027,7 @@ open class CallTest(
       .url(server.url("/"))
       .post(object : RequestBody() {
         var attempt = 0
-        override fun contentType(): MediaType? {
-          return null
-        }
+        override fun contentType(): MediaType? = null
 
         override fun writeTo(sink: BufferedSink) {
           sink.writeUtf8("attempt " + attempt++)
@@ -2949,9 +2945,7 @@ open class CallTest(
     server.enqueue(MockResponse().setBody("Response 1"))
     server.enqueue(MockResponse().setBody("Response 2"))
     val requestBody: RequestBody = object : RequestBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
       override fun writeTo(sink: BufferedSink) {
         sink.writeUtf8("abc")
@@ -3718,16 +3712,14 @@ open class CallTest(
     val buffer = ByteArray(writeSize)
     Arrays.fill(buffer, 'x'.code.toByte())
     return object : RequestBody() {
-      override fun contentType() = "text/plain; charset=utf-8".toMediaType()
+      override fun contentType(): MediaType = "text/plain; charset=utf-8".toMediaType()
 
-      override fun contentLength(): Long {
-        return if (chunked) -1L else size
-      }
+      override fun contentLength(): Long = if (chunked) -1L else size
 
       override fun writeTo(sink: BufferedSink) {
         var count = 0
         while (count < size) {
-          sink.write(buffer, 0, Math.min(size - count, writeSize.toLong()).toInt())
+          sink.write(buffer, 0, (size - count).coerceAtMost(writeSize.toLong()).toInt())
           count += writeSize
         }
       }
@@ -3963,9 +3955,7 @@ open class CallTest(
     val request = Request.Builder()
       .url(server.url("/"))
       .post(object : RequestBody() {
-        override fun contentType(): MediaType? {
-          return null
-        }
+        override fun contentType(): MediaType? = null
 
         override fun writeTo(sink: BufferedSink) {
           sink.flush() // For determinism, always send a partial request to the server.
@@ -4039,9 +4029,9 @@ open class CallTest(
 
   private fun makeFailingCall() {
     val requestBody: RequestBody = object : RequestBody() {
-      override fun contentType() = null
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength() = 1L
+      override fun contentLength(): Long = 1L
 
       override fun writeTo(sink: BufferedSink) {
         sink.flush() // For determinism, always send a partial request to the server.

@@ -18,35 +18,21 @@ package okhttp3
 import java.io.IOException
 import okio.BufferedSink
 
-open class ForwardingRequestBody(delegate: RequestBody?) : RequestBody() {
-  private val delegate: RequestBody
-  fun delegate(): RequestBody {
-    return delegate
-  }
+open class ForwardingRequestBody(private val delegate: RequestBody) : RequestBody() {
 
-  override fun contentType(): MediaType? {
-    return delegate.contentType()
-  }
+  fun delegate(): RequestBody = delegate
 
-  @Throws(IOException::class) override fun contentLength(): Long {
-    return delegate.contentLength()
-  }
+  override fun contentType(): MediaType? = delegate.contentType()
+
+  @Throws(IOException::class)
+  override fun contentLength(): Long = delegate.contentLength()
 
   @Throws(IOException::class)
   override fun writeTo(sink: BufferedSink) {
     delegate.writeTo(sink)
   }
 
-  override fun isDuplex(): Boolean {
-    return delegate.isDuplex()
-  }
+  override fun isDuplex(): Boolean = delegate.isDuplex()
 
-  override fun toString(): String {
-    return javaClass.simpleName + "(" + delegate.toString() + ")"
-  }
-
-  init {
-    requireNotNull(delegate) { "delegate == null" }
-    this.delegate = delegate
-  }
+  override fun toString(): String = "${javaClass.simpleName}($delegate)"
 }

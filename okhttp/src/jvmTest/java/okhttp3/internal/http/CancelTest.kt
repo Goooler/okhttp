@@ -148,9 +148,7 @@ class CancelTest {
       Request.Builder()
         .url(server.url("/"))
         .post(object : RequestBody() {
-          override fun contentType(): MediaType? {
-            return null
-          }
+          override fun contentType(): MediaType? = null
 
           @Throws(
             IOException::class

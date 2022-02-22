@@ -401,9 +401,7 @@ class URLConnectionTest {
     server.bodyLimit = 0
     server.enqueue(MockResponse())
     val requestBody: RequestBody = object : RequestBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
       override fun contentLength(): Long {
         return if (uploadKind === TransferKind.CHUNKED) -1L else n.toLong()
@@ -419,7 +417,7 @@ class URLConnectionTest {
           Arrays.fill(buf, 'x'.code.toByte())
           var i = 0
           while (i < n) {
-            sink.write(buf, 0, Math.min(buf.size, n - i))
+            sink.write(buf, 0, buf.size.coerceAtMost(n - i))
             i += buf.size
           }
         }
@@ -2705,9 +2703,7 @@ class URLConnectionTest {
     val request = Request.Builder()
       .url(server.url("/"))
       .post(object : RequestBody() {
-        override fun contentType(): MediaType? {
-          return null
-        }
+        override fun contentType(): MediaType? = null
 
         override fun writeTo(sink: BufferedSink) {
           val data = ByteArray(2 * 1024 * 1024) // 2 MiB.
@@ -3593,7 +3589,7 @@ class URLConnectionTest {
             val buffer = ByteArray(1024 * 1024)
             var bytesWritten: Long = 0
             while (bytesWritten < contentLength) {
-              val byteCount = Math.min(buffer.size.toLong(), contentLength - bytesWritten).toInt()
+              val byteCount = buffer.size.toLong().coerceAtMost(contentLength - bytesWritten).toInt()
               bytesWritten += byteCount.toLong()
               sink.write(buffer, 0, byteCount)
             }

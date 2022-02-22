@@ -117,9 +117,9 @@ abstract class RequestBody {
     @JvmName("create")
     fun ByteString.toRequestBody(contentType: MediaType? = null): RequestBody {
       return object : RequestBody() {
-        override fun contentType() = contentType
+        override fun contentType(): MediaType? = contentType
 
-        override fun contentLength() = size.toLong()
+        override fun contentLength(): Long = size.toLong()
 
         override fun writeTo(sink: BufferedSink) {
           sink.write(this@toRequestBody)
@@ -132,7 +132,7 @@ abstract class RequestBody {
     @JvmName("create")
     fun FileDescriptor.toRequestBody(contentType: MediaType? = null): RequestBody {
       return object : RequestBody() {
-        override fun contentType() = contentType
+        override fun contentType(): MediaType? = contentType
 
         override fun isOneShot(): Boolean = true
 
@@ -155,9 +155,9 @@ abstract class RequestBody {
     ): RequestBody {
       checkOffsetAndCount(size.toLong(), offset.toLong(), byteCount.toLong())
       return object : RequestBody() {
-        override fun contentType() = contentType
+        override fun contentType(): MediaType? = contentType
 
-        override fun contentLength() = byteCount.toLong()
+        override fun contentLength(): Long = byteCount.toLong()
 
         override fun writeTo(sink: BufferedSink) {
           sink.write(this@toRequestBody, offset, byteCount)
@@ -170,12 +170,12 @@ abstract class RequestBody {
     @JvmName("create")
     fun File.asRequestBody(contentType: MediaType? = null): RequestBody {
       return object : RequestBody() {
-        override fun contentType() = contentType
+        override fun contentType(): MediaType? = contentType
 
-        override fun contentLength() = length()
+        override fun contentLength(): Long = length()
 
         override fun writeTo(sink: BufferedSink) {
-          source().use { source -> sink.writeAll(source) }
+          source().use(sink::writeAll)
         }
       }
     }
@@ -185,12 +185,12 @@ abstract class RequestBody {
     @JvmName("create")
     fun Path.asRequestBody(fileSystem: FileSystem, contentType: MediaType? = null): RequestBody {
       return object : RequestBody() {
-        override fun contentType() = contentType
+        override fun contentType(): MediaType? = contentType
 
-        override fun contentLength() = fileSystem.metadata(this@asRequestBody).size ?: -1
+        override fun contentLength(): Long = fileSystem.metadata(this@asRequestBody).size ?: -1
 
         override fun writeTo(sink: BufferedSink) {
-          fileSystem.source(this@asRequestBody).use { source -> sink.writeAll(source) }
+          fileSystem.source(this@asRequestBody).use(sink::writeAll)
         }
       }
     }
@@ -258,9 +258,7 @@ abstract class RequestBody {
     @JvmStatic
     fun RequestBody.gzip(): RequestBody {
       return object : RequestBody() {
-        override fun contentType(): MediaType? {
-          return this@gzip.contentType()
-        }
+        override fun contentType(): MediaType? = this@gzip.contentType()
 
         override fun contentLength(): Long {
           return -1 // We don't know the compressed length in advance!

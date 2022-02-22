@@ -292,7 +292,7 @@ class WebSocketWriterTest {
   }
 
   private fun assertData(expected: ByteString) {
-    val actual = data.readByteString(Math.min(expected.size.toLong(), data.size))
+    val actual = data.readByteString(expected.size.toLong().coerceAtMost(data.size))
     assertThat(actual).isEqualTo(expected)
   }
 

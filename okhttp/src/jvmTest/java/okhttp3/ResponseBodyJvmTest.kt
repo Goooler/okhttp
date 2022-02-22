@@ -100,13 +100,9 @@ class ResponseBodyJvmTest {
   fun stringClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")
@@ -181,13 +177,9 @@ class ResponseBodyJvmTest {
   fun readerClosedBeforeBomClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val body = body("fffe680065006c006c006f00")
@@ -208,13 +200,9 @@ class ResponseBodyJvmTest {
   fun readerClosedAfterBomClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val body = body("fffe680065006c006c006f00")
@@ -263,13 +251,9 @@ class ResponseBodyJvmTest {
   fun bytesClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")
@@ -289,13 +273,9 @@ class ResponseBodyJvmTest {
   @Test
   fun bytesThrowsWhenLengthsDisagree() {
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 10
-      }
+      override fun contentLength(): Long = 10
 
       override fun source(): BufferedSource {
         return Buffer().writeUtf8("hello")
@@ -314,13 +294,9 @@ class ResponseBodyJvmTest {
   @Test
   fun bytesThrowsMoreThanIntMaxValue() {
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return Int.MAX_VALUE + 1L
-      }
+      override fun contentLength(): Long = Int.MAX_VALUE + 1L
 
       override fun source(): BufferedSource {
         throw AssertionError()
@@ -354,13 +330,9 @@ class ResponseBodyJvmTest {
   fun byteStringClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")
@@ -380,13 +352,9 @@ class ResponseBodyJvmTest {
   @Test
   fun byteStringThrowsWhenLengthsDisagree() {
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 10
-      }
+      override fun contentLength(): Long = 10
 
       override fun source(): BufferedSource {
         return Buffer().writeUtf8("hello")
@@ -405,13 +373,9 @@ class ResponseBodyJvmTest {
   @Test
   fun byteStringThrowsMoreThanIntMaxValue() {
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return Int.MAX_VALUE + 1L
-      }
+      override fun contentLength(): Long = Int.MAX_VALUE + 1L
 
       override fun source(): BufferedSource {
         throw AssertionError()
@@ -448,13 +412,9 @@ class ResponseBodyJvmTest {
   fun byteStreamClosesUnderlyingSource() {
     val closed = AtomicBoolean()
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")

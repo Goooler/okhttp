@@ -44,13 +44,9 @@ class ResponseBodyTest {
     var closed = false
 
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")
@@ -69,13 +65,9 @@ class ResponseBodyTest {
   @Test
   fun throwingUnderlyingSourceClosesQuietly() {
     val body: ResponseBody = object : ResponseBody() {
-      override fun contentType(): MediaType? {
-        return null
-      }
+      override fun contentType(): MediaType? = null
 
-      override fun contentLength(): Long {
-        return 5
-      }
+      override fun contentLength(): Long = 5
 
       override fun source(): BufferedSource {
         val source = Buffer().writeUtf8("hello")

@@ -245,7 +245,7 @@ Here we `POST` a request body as a stream. The content of this request body is b
 
       fun run() {
         val requestBody = object : RequestBody() {
-          override fun contentType() = MEDIA_TYPE_MARKDOWN
+          override fun contentType(): MediaType = MEDIA_TYPE_MARKDOWN
 
           override fun writeTo(sink: BufferedSink) {
             sink.writeUtf8("Numbers\n")
