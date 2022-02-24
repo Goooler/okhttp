@@ -28,9 +28,9 @@ fun ByteArray.commonToRequestBody(
 ): RequestBody {
   checkOffsetAndCount(size.toLong(), offset.toLong(), byteCount.toLong())
   return object : RequestBody() {
-    override fun contentType() = contentType
+    override fun contentType(): MediaType? = contentType
 
-    override fun contentLength() = byteCount.toLong()
+    override fun contentLength(): Long = byteCount.toLong()
 
     override fun writeTo(sink: BufferedSink) {
       sink.write(this@commonToRequestBody, offset, byteCount)
@@ -50,9 +50,9 @@ fun RequestBody.commonIsOneShot(): Boolean = false
 /** Returns a new request body that transmits this. */
 fun ByteString.commonToRequestBody(contentType: MediaType?): RequestBody {
   return object : RequestBody() {
-    override fun contentType() = contentType
+    override fun contentType(): MediaType? = contentType
 
-    override fun contentLength() = size.toLong()
+    override fun contentLength(): Long = size.toLong()
 
     override fun writeTo(sink: BufferedSink) {
       sink.write(this@commonToRequestBody)
