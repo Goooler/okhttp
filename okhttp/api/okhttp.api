@@ -1,5 +1,4 @@
 public final class okhttp3/Address {
-	public final fun -deprecated_certificatePinner ()Lokhttp3/CertificatePinner;
 	public final fun -deprecated_connectionSpecs ()Ljava/util/List;
 	public final fun -deprecated_dns ()Lokhttp3/Dns;
 	public final fun -deprecated_hostnameVerifier ()Ljavax/net/ssl/HostnameVerifier;
