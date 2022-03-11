@@ -17,9 +17,8 @@
 package okhttp3
 
 import okio.IOException
-import okio.Timeout
 
-actual interface Call : Cloneable {
+actual interface Call {
   actual fun request(): Request
 
   /**
@@ -28,9 +27,9 @@ actual interface Call : Cloneable {
    * To avoid leaking resources callers should close the [Response] which in turn will close the
    * underlying [ResponseBody].
    *
-   * ```java
+   * ```kotlin
    * // ensure the response (and underlying response body) is closed
-   * try (Response response = client.newCall(request).execute()) {
+   * client.newCall(request).executeAsync().use {
    *   ...
    * }
    * ```
@@ -47,8 +46,7 @@ actual interface Call : Cloneable {
    *     remote server accepted the request before the failure.
    * @throws IllegalStateException when the call has already been executed.
    */
-  @Throws(IOException::class)
-  fun execute(): Response
+  suspend fun executeAsync(): Response
 
   actual fun enqueue(responseCallback: Callback)
 
@@ -58,16 +56,7 @@ actual interface Call : Cloneable {
 
   actual fun isCanceled(): Boolean
 
-  /**
-   * Returns a timeout that spans the entire call: resolving DNS, connecting, writing the request
-   * body, server processing, and reading the response body. If the call requires redirects or
-   * retries all must complete within one timeout period.
-   *
-   * Configure the client's default timeout with [OkHttpClient.Builder.callTimeout].
-   */
-  fun timeout(): Timeout
-
-  public override actual fun clone(): Call
+  actual fun clone(): Call
 
   actual fun interface Factory {
     actual fun newCall(request: Request): Call

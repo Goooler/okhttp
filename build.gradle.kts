@@ -4,6 +4,7 @@ import java.net.URL
 import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension
@@ -17,7 +18,6 @@ buildscript {
     classpath(libs.gradlePlugin.graal)
     classpath(libs.gradlePlugin.bnd)
     classpath(libs.gradlePlugin.shadow)
-    classpath(libs.gradlePlugin.japicmp)
     classpath(libs.gradlePlugin.animalsniffer)
     classpath(libs.gradlePlugin.errorprone)
     classpath(libs.gradlePlugin.spotless)
@@ -34,7 +34,7 @@ buildscript {
 
 allprojects {
   group = "com.squareup.okhttp3"
-  version = "5.0.0-alpha.5"
+  version = "5.0.0-SNAPSHOT"
 
   repositories {
     mavenCentral()
@@ -64,12 +64,12 @@ allprojects {
 /** Configure building for Java+Kotlin projects. */
 subprojects {
   val project = this@subprojects
-  if (project.name == "android-test") return@subprojects
   if (project.name == "okhttp-bom") return@subprojects
+
+  if (project.name == "android-test") return@subprojects
   if (project.name == "regression-test") return@subprojects
 
   apply(plugin = "checkstyle")
-  apply(plugin = "com.diffplug.spotless")
   apply(plugin = "ru.vyarus.animalsniffer")
   apply(plugin = "biz.aQute.bnd.builder")
 
@@ -255,6 +255,5 @@ tasks.wrapper {
 
 // Fix until 1.6.20 https://youtrack.jetbrains.com/issue/KT-49109
 rootProject.plugins.withType(NodeJsRootPlugin::class.java) {
-  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
-    "16.13.0"
+  rootProject.the<NodeJsRootExtension>().nodeVersion = "16.13.0"
 }
