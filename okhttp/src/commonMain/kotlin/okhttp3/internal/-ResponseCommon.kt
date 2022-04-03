@@ -32,6 +32,7 @@ import okhttp3.internal.http.HTTP_PERM_REDIRECT
 import okhttp3.internal.http.HTTP_SEE_OTHER
 import okhttp3.internal.http.HTTP_TEMP_REDIRECT
 import okio.Buffer
+import okio.BufferedSource
 import okio.IOException
 import okio.Source
 import okio.Timeout
@@ -41,9 +42,9 @@ class UnreadableResponseBody(
   private val mediaType: MediaType?,
   private val contentLength: Long,
 ): ResponseBody(), Source {
-  override fun contentType() = mediaType
-  override fun contentLength() = contentLength
-  override fun source() = buffer()
+  override fun contentType(): MediaType? = mediaType
+  override fun contentLength(): Long = contentLength
+  override fun source(): BufferedSource = buffer()
 
   override fun read(sink: Buffer, byteCount: Long): Long {
     throw IllegalStateException("""
@@ -58,7 +59,7 @@ class UnreadableResponseBody(
     )
   }
 
-  override fun timeout() = Timeout.NONE
+  override fun timeout(): Timeout = Timeout.NONE
 
   override fun close() {
   }

@@ -158,7 +158,7 @@ actual class Response internal constructor(
       message = "moved to val",
       replaceWith = ReplaceWith(expression = "body"),
       level = DeprecationLevel.ERROR)
-  fun body() = body
+  fun body(): ResponseBody = body
 
   actual fun newBuilder(): Builder = commonNewBuilder()
 

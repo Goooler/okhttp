@@ -27,6 +27,7 @@ import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.encodeUtf8
 import okio.IOException
 import okio.Source
+import okio.Timeout
 import okio.buffer
 
 class ResponseBodyTest {
@@ -131,7 +132,7 @@ abstract class ForwardingSource(
 ) : Source {
   override fun read(sink: Buffer, byteCount: Long): Long = delegate.read(sink, byteCount)
 
-  override fun timeout() = delegate.timeout()
+  override fun timeout(): Timeout = delegate.timeout()
 
   override fun close() = delegate.close()
 }
