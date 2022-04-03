@@ -27,7 +27,6 @@ import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import okhttp3.internal.EMPTY_RESPONSE
 import okhttp3.internal.canReuseConnectionFor
 import okhttp3.internal.closeQuietly
 import okhttp3.internal.connection.RoutePlanner.Plan
@@ -48,6 +47,8 @@ class RealRoutePlanner(
   private var routeSelector: RouteSelector? = null
   private var nextRouteToTry: Route? = null
 
+  override val deferredPlans = ArrayDeque<Plan>()
+
   override fun isCanceled(): Boolean = call.isCanceled()
 
   @Throws(IOException::class)
@@ -58,6 +59,9 @@ class RealRoutePlanner(
     // Attempt to get a connection from the pool.
     val pooled1 = planReusePooledConnection()
     if (pooled1 != null) return pooled1
+
+    // Attempt a deferred plan before new routes.
+    if (deferredPlans.isNotEmpty()) return deferredPlans.removeFirst()
 
     // Do blocking calls to plan a route for a new connection.
     val connect = planConnect()
@@ -240,7 +244,6 @@ class RealRoutePlanner(
       .protocol(Protocol.HTTP_1_1)
       .code(HttpURLConnection.HTTP_PROXY_AUTH)
       .message("Preemptive Authenticate")
-      .body(EMPTY_RESPONSE)
       .sentRequestAtMillis(-1L)
       .receivedResponseAtMillis(-1L)
       .header("Proxy-Authenticate", "OkHttp-Preemptive")
@@ -253,6 +256,10 @@ class RealRoutePlanner(
   }
 
   override fun hasNext(failedConnection: RealConnection?): Boolean {
+    if (deferredPlans.isNotEmpty()) {
+      return true
+    }
+
     if (nextRouteToTry != null) {
       return true
     }

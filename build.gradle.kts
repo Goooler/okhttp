@@ -4,8 +4,6 @@ import java.net.URL
 import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension
 
@@ -66,6 +64,7 @@ subprojects {
   val project = this@subprojects
   if (project.name == "okhttp-bom") return@subprojects
 
+  if (project.name == "okhttp-android") return@subprojects
   if (project.name == "android-test") return@subprojects
   if (project.name == "regression-test") return@subprojects
 
@@ -251,9 +250,4 @@ subprojects {
 
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
-}
-
-// Fix until 1.6.20 https://youtrack.jetbrains.com/issue/KT-49109
-rootProject.plugins.withType(NodeJsRootPlugin::class.java) {
-  rootProject.the<NodeJsRootExtension>().nodeVersion = "16.13.0"
 }

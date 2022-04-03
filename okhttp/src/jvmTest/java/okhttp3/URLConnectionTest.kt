@@ -175,7 +175,7 @@ class URLConnectionTest {
     assertThat(responseHeaders.value(1)).isEqualTo("d")
     assertThat(responseHeaders.name(2)).isEqualTo("A")
     assertThat(responseHeaders.value(2)).isEqualTo("e")
-    response.body!!.close()
+    response.body.close()
   }
 
   @Test fun serverSendsInvalidStatusLine() {
@@ -344,7 +344,7 @@ class URLConnectionTest {
     server.enqueue(responseAfter)
     server.enqueue(responseAfter) // Enqueue 2x because the broken connection may be reused.
     val response1 = getResponse(newRequest("/a"))
-    response1.body!!.source().timeout().timeout(100, TimeUnit.MILLISECONDS)
+    response1.body.source().timeout().timeout(100, TimeUnit.MILLISECONDS)
     assertContent("This connection won't pool properly", response1)
     assertThat(server.takeRequest().sequenceNumber).isEqualTo(0)
 
@@ -352,7 +352,7 @@ class URLConnectionTest {
     // client has received the response.
     Thread.sleep(500)
     val response2 = getResponse(newRequest("/b"))
-    response1.body!!.source().timeout().timeout(100, TimeUnit.MILLISECONDS)
+    response1.body.source().timeout().timeout(100, TimeUnit.MILLISECONDS)
     assertContent("This comes after a busted connection", response2)
 
     // Check that a fresh connection was created, either immediately or after attempting reuse.
@@ -710,7 +710,7 @@ class URLConnectionTest {
     )
     try {
       val response = getResponse(newRequest("/"))
-      response.body!!.source().readUtf8(5)
+      response.body.source().readUtf8(5)
       fail<Any>()
     } catch (expected: ProtocolException) {
     }
@@ -801,7 +801,7 @@ class URLConnectionTest {
     server.enqueue(mockResponse)
     try {
       val response = getResponse(newRequest("/"))
-      response.body!!.source().readUtf8(7)
+      response.body.source().readUtf8(7)
       fail<Any>()
     } catch (expected: IOException) {
     }
@@ -1099,7 +1099,7 @@ class URLConnectionTest {
     )
     val call = client.newCall(newRequest("/"))
     val response = call.execute()
-    val inputStream = response.body!!.byteStream()
+    val inputStream = response.body.byteStream()
     assertThat(inputStream.read().toChar()).isEqualTo('A')
     call.cancel()
     try {
@@ -1190,7 +1190,7 @@ class URLConnectionTest {
     transferKind.setBody(response, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 1024)
     server.enqueue(response)
     server.enqueue(response)
-    val inputStream = getResponse(newRequest("/")).body!!.byteStream()
+    val inputStream = getResponse(newRequest("/")).body.byteStream()
     assertThat(inputStream.markSupported())
       .overridingErrorMessage("This implementation claims to support mark().")
       .isFalse
@@ -1225,7 +1225,7 @@ class URLConnectionTest {
     assertThat(response.code).isEqualTo(401)
     assertThat(response.code).isEqualTo(401)
     assertThat(server.requestCount).isEqualTo(1)
-    response.body!!.close()
+    response.body.close()
   }
 
   @Test fun nonHexChunkSize() {
@@ -1237,7 +1237,7 @@ class URLConnectionTest {
     )
     try {
       getResponse(newRequest("/")).use { response ->
-        response.body!!.string()
+        response.body.string()
         fail<Any>()
       }
     } catch (expected: IOException) {
@@ -1253,7 +1253,7 @@ class URLConnectionTest {
     )
     try {
       getResponse(newRequest("/")).use { response ->
-        readAscii(response.body!!.byteStream(), Int.MAX_VALUE)
+        readAscii(response.body.byteStream(), Int.MAX_VALUE)
         fail<Any>()
       }
     } catch (expected: IOException) {
@@ -1280,7 +1280,7 @@ class URLConnectionTest {
     )
     try {
       getResponse(newRequest("/")).use { response ->
-        readAscii(response.body!!.byteStream(), Int.MAX_VALUE)
+        readAscii(response.body.byteStream(), Int.MAX_VALUE)
         fail<Any>()
       }
     } catch (expected: IOException) {
@@ -1298,11 +1298,11 @@ class URLConnectionTest {
         .addHeader("Content-Encoding: gzip")
     )
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "ABCABCABC"
     )
     assertThat(response.header("Content-Encoding")).isNull()
-    assertThat(response.body!!.contentLength()).isEqualTo(-1L)
+    assertThat(response.body.contentLength()).isEqualTo(-1L)
     val request = server.takeRequest()
     assertThat(request.getHeader("Accept-Encoding")).isEqualTo("gzip")
   }
@@ -1320,9 +1320,9 @@ class URLConnectionTest {
         .header("Accept-Encoding", "gzip")
         .build()
     )
-    val gunzippedIn: InputStream = GZIPInputStream(response.body!!.byteStream())
+    val gunzippedIn: InputStream = GZIPInputStream(response.body.byteStream())
     assertThat(readAscii(gunzippedIn, Int.MAX_VALUE)).isEqualTo("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-    assertThat(response.body!!.contentLength()).isEqualTo(bodyBytes.size)
+    assertThat(response.body.contentLength()).isEqualTo(bodyBytes.size)
     val request = server.takeRequest()
     assertThat(request.getHeader("Accept-Encoding")).isEqualTo("gzip")
   }
@@ -1355,7 +1355,7 @@ class URLConnectionTest {
         .header("Accept-Encoding", "custom")
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo("ABCDE")
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.getHeader("Accept-Encoding")).isEqualTo("custom")
   }
@@ -1391,7 +1391,7 @@ class URLConnectionTest {
         .url(server.url("/"))
         .build()
     )
-    val gunzippedIn: InputStream = GZIPInputStream(response1.body!!.byteStream())
+    val gunzippedIn: InputStream = GZIPInputStream(response1.body.byteStream())
     assertThat(readAscii(gunzippedIn, Int.MAX_VALUE)).isEqualTo("one (gzipped)")
     assertThat(server.takeRequest().sequenceNumber).isEqualTo(0)
     val response2 = getResponse(
@@ -1399,7 +1399,7 @@ class URLConnectionTest {
         .url(server.url("/"))
         .build()
     )
-    assertThat(readAscii(response2.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo("two (identity)")
+    assertThat(readAscii(response2.body.byteStream(), Int.MAX_VALUE)).isEqualTo("two (identity)")
     assertThat(server.takeRequest().sequenceNumber).isEqualTo(1)
   }
 
@@ -1458,13 +1458,13 @@ class URLConnectionTest {
     server.enqueue(mockResponse2)
     val call1 = client.newCall(newRequest("/"))
     val response1 = call1.execute()
-    val in1 = response1.body!!.byteStream()
+    val in1 = response1.body.byteStream()
     assertThat(readAscii(in1, 5)).isEqualTo("ABCDE")
     in1.close()
     call1.cancel()
     val call2 = client.newCall(newRequest("/"))
     val response2 = call2.execute()
-    val in2 = response2.body!!.byteStream()
+    val in2 = response2.body.byteStream()
     assertThat(readAscii(in2, 5)).isEqualTo("LMNOP")
     in2.close()
     call2.cancel()
@@ -1486,7 +1486,7 @@ class URLConnectionTest {
     )
     val startNanos = System.nanoTime()
     val connection1 = getResponse(newRequest("/"))
-    val inputStream = connection1.body!!.byteStream()
+    val inputStream = connection1.body.byteStream()
     inputStream.close()
     val elapsedNanos = System.nanoTime() - startNanos
     val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
@@ -1594,7 +1594,7 @@ class URLConnectionTest {
         .build()
     )
     assertThat(response.code).isEqualTo(200)
-    response.body!!.byteStream().close()
+    response.body.byteStream().close()
     val recordedRequest1 = server.takeRequest()
     assertThat(recordedRequest1.method).isEqualTo("POST")
     assertThat(recordedRequest1.body.readUtf8()).isEqualTo(body)
@@ -1683,7 +1683,7 @@ class URLConnectionTest {
       response = getResponse(newRequest("/"))
     }
     assertThat(response.code).isEqualTo(responseCode)
-    response.body!!.byteStream().close()
+    response.body.byteStream().close()
     return authenticator.calls
   }
 
@@ -1822,7 +1822,7 @@ class URLConnectionTest {
         .post(streamingMode.newRequestBody("ABCD"))
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "Success!"
     )
     val request = server.takeRequest()
@@ -1859,7 +1859,7 @@ class URLConnectionTest {
         .post("ABCD".toRequestBody(null))
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "Successful auth!"
     )
 
@@ -1897,7 +1897,7 @@ class URLConnectionTest {
       .authenticator(JavaNetAuthenticator())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Successful auth!")
 
     // No authorization header for the first request...
@@ -1939,7 +1939,7 @@ class URLConnectionTest {
       .authenticator(JavaNetAuthenticator())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Successful auth!")
 
     // No authorization header for the first request...
@@ -1978,7 +1978,7 @@ class URLConnectionTest {
       .authenticator(JavaNetAuthenticator())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Successful auth!")
 
     // no authorization header for the first request...
@@ -2012,7 +2012,7 @@ class URLConnectionTest {
       .authenticator(JavaNetAuthenticator())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Successful auth!")
   }
 
@@ -2039,7 +2039,7 @@ class URLConnectionTest {
         .setBody("This is the new location!")
     )
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "This is the new location!"
     )
     val first = server.takeRequest()
@@ -2072,7 +2072,7 @@ class URLConnectionTest {
       .hostnameVerifier(RecordingHostnameVerifier())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "This is the new location!"
     )
     val first = server.takeRequest()
@@ -2100,7 +2100,7 @@ class URLConnectionTest {
       .hostnameVerifier(RecordingHostnameVerifier())
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("This page has moved!")
   }
 
@@ -2115,7 +2115,7 @@ class URLConnectionTest {
       .followSslRedirects(false)
       .build()
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("This page has moved!")
   }
 
@@ -2324,7 +2324,7 @@ class URLConnectionTest {
         .post(transferKind.newRequestBody("ABCD"))
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Page 2")
     val page1 = server.takeRequest()
     assertThat(page1.requestLine).isEqualTo("POST /page1 HTTP/1.1")
@@ -2350,7 +2350,7 @@ class URLConnectionTest {
         .header("Transfer-Encoding", "identity")
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Page 2")
     assertThat(server.takeRequest().requestLine)
       .isEqualTo("POST /page1 HTTP/1.1")
@@ -2374,7 +2374,7 @@ class URLConnectionTest {
     )
     val response = getResponse(newRequest("/foo"))
     // Fails on the RI, which gets "Proxy Response".
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("This page has moved!")
     val page1 = server.takeRequest()
     assertThat(page1.requestLine).isEqualTo("GET /foo HTTP/1.1")
@@ -2457,7 +2457,7 @@ class URLConnectionTest {
       .url(server.url("/page1"))
     requestBuilder.post("ABCD".toRequestBody(null))
     val response = getResponse(requestBuilder.build())
-    val responseString = readAscii(response.body!!.byteStream(), Int.MAX_VALUE)
+    val responseString = readAscii(response.body.byteStream(), Int.MAX_VALUE)
     val page1 = server.takeRequest()
     assertThat(page1.requestLine).isEqualTo("POST /page1 HTTP/1.1")
     assertThat(page1.body.readUtf8()).isEqualTo("ABCD")
@@ -2478,7 +2478,7 @@ class URLConnectionTest {
       .url(server.url("/page1"))
     requestBuilder.post("ABCD".toRequestBody(null))
     val response = getResponse(requestBuilder.build())
-    val responseString = readAscii(response.body!!.byteStream(), Int.MAX_VALUE)
+    val responseString = readAscii(response.body.byteStream(), Int.MAX_VALUE)
     val page1 = server.takeRequest()
     assertThat(page1.requestLine).isEqualTo("POST /page1 HTTP/1.1")
     assertThat(page1.body.readUtf8()).isEqualTo("ABCD")
@@ -2508,7 +2508,7 @@ class URLConnectionTest {
       requestBuilder.method(method, null)
     }
     val response = getResponse(requestBuilder.build())
-    val responseString = readAscii(response.body!!.byteStream(), Int.MAX_VALUE)
+    val responseString = readAscii(response.body.byteStream(), Int.MAX_VALUE)
     val page1 = server.takeRequest()
     assertThat(page1.requestLine).isEqualTo(
       "$method /page1 HTTP/1.1"
@@ -2597,7 +2597,7 @@ class URLConnectionTest {
     enqueueClientRequestTimeoutResponses()
     val response = getResponse(newRequest("/"))
     assertThat(response.code).isEqualTo(200)
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Body")
   }
 
@@ -2624,7 +2624,7 @@ class URLConnectionTest {
         .build()
     )
     assertThat(response.code).isEqualTo(200)
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("Body")
     val request1 = server.takeRequest()
     assertThat(request1.body.readUtf8()).isEqualTo("Hello")
@@ -2661,7 +2661,7 @@ class URLConnectionTest {
         .setBody("unused")
     ) // to keep the server alive
     val response = getResponse(newRequest("/"))
-    val source = response.body!!.source()
+    val source = response.body.source()
     source.timeout().timeout(1000, TimeUnit.MILLISECONDS)
     assertThat(source.readByte()).isEqualTo('A'.code.toByte())
     assertThat(source.readByte()).isEqualTo('B'.code.toByte())
@@ -2783,7 +2783,7 @@ class URLConnectionTest {
         .setBody("This is the new location!")
     )
     val response = getResponse(newRequest("/"))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo(
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo(
       "This is the new location!"
     )
     assertThat(server.takeRequest().sequenceNumber).isEqualTo(0)
@@ -2838,7 +2838,7 @@ class URLConnectionTest {
         )
     )
     val response = getResponse(newRequest("/"))
-    val inputStream = response.body!!.byteStream()
+    val inputStream = response.body.byteStream()
     assertThat(inputStream.read()).isEqualTo(254)
     assertThat(inputStream.read()).isEqualTo(255)
     assertThat(inputStream.read()).isEqualTo(-1)
@@ -2878,7 +2878,7 @@ class URLConnectionTest {
         })
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE))
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE))
       .isEqualTo("abc")
     try {
       sinkReference.get().flush()
@@ -2933,7 +2933,7 @@ class URLConnectionTest {
 
     // The request should work once and then fail.
     val connection1 = getResponse(newRequest("/"))
-    val source1 = connection1.body!!.source()
+    val source1 = connection1.body.source()
     source1.timeout().timeout(100, TimeUnit.MILLISECONDS)
     assertThat(readAscii(source1.inputStream(), Int.MAX_VALUE)).isEqualTo("ABC")
     server.shutdown()
@@ -2954,7 +2954,7 @@ class URLConnectionTest {
         .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END)
     )
     val response = getResponse(newRequest("/"))
-    val `in` = response.body!!.byteStream()
+    val `in` = response.body.byteStream()
     assertThat(readAscii(`in`, 3)).isEqualTo("ABC")
     assertThat(`in`.read()).isEqualTo(-1)
     // throws IOException in Gingerbread.
@@ -2983,10 +2983,10 @@ class URLConnectionTest {
         .post("ABC".toRequestBody(null))
         .build()
     )
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo("A")
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo("A")
     val request = server.takeRequest()
     assertThat(request.getHeader("Content-Length")).isEqualTo("3")
-    response.body!!.close()
+    response.body.close()
   }
 
  @Test fun getContentLengthConnects() {
@@ -2995,8 +2995,8 @@ class URLConnectionTest {
         .setBody("ABC")
     )
     val response = getResponse(newRequest("/"))
-    assertThat(response.body!!.contentLength()).isEqualTo(3L)
-    response.body!!.close()
+    assertThat(response.body.contentLength()).isEqualTo(3L)
+    response.body.close()
   }
 
   @Test fun getContentTypeConnects() {
@@ -3006,10 +3006,10 @@ class URLConnectionTest {
         .setBody("ABC")
     )
     val response = getResponse(newRequest("/"))
-    assertThat(response.body!!.contentType()).isEqualTo(
+    assertThat(response.body.contentType()).isEqualTo(
       "text/plain".toMediaType()
     )
-    response.body!!.close()
+    response.body.close()
   }
 
   @Test fun getContentEncodingConnects() {
@@ -3020,7 +3020,7 @@ class URLConnectionTest {
     )
     val response = getResponse(newRequest("/"))
     assertThat(response.header("Content-Encoding")).isEqualTo("identity")
-    response.body!!.close()
+    response.body.close()
   }
 
   @Test fun urlContainsQueryButNoPath() {
@@ -3030,7 +3030,7 @@ class URLConnectionTest {
     )
     val url = server.url("?query")
     val response = getResponse(newRequest(url))
-    assertThat(readAscii(response.body!!.byteStream(), Int.MAX_VALUE)).isEqualTo("A")
+    assertThat(readAscii(response.body.byteStream(), Int.MAX_VALUE)).isEqualTo("A")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("GET /?query HTTP/1.1")
   }
@@ -3065,7 +3065,7 @@ class URLConnectionTest {
     transferKind.setBody(mockResponse, body, 4)
     server.enqueue(mockResponse)
     val response = getResponse(newRequest("/"))
-    val inputStream = response.body!!.byteStream()
+    val inputStream = response.body.byteStream()
     for (i in 0 until body.length) {
       assertThat(inputStream.available()).isGreaterThanOrEqualTo(0)
       assertThat(inputStream.read()).isEqualTo(body[i].code)
@@ -3291,7 +3291,7 @@ class URLConnectionTest {
     val response = getResponse(newRequest("/"))
     assertThat(response.code).isEqualTo(200)
     assertThat(response.header("")).isEqualTo("A")
-    response.body!!.close()
+    response.body.close()
   }
 
   @Test fun requestHeaderValidationIsStrict() {
@@ -3860,7 +3860,7 @@ class URLConnectionTest {
     response: Response,
     limit: Int = Int.MAX_VALUE
   ) {
-    assertThat(readAscii(response.body!!.byteStream(), limit)).isEqualTo(expected)
+    assertThat(readAscii(response.body.byteStream(), limit)).isEqualTo(expected)
   }
 
   private fun newSet(vararg elements: String): Set<String> {

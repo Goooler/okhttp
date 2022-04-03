@@ -19,11 +19,17 @@ import java.io.IOException
 import java.net.Inet4Address
 import java.net.Inet6Address
 import java.net.InetAddress
+import java.net.Socket
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import javax.net.SocketFactory
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
+import mockwebserver3.SocketPolicy
+import okhttp3.internal.http2.ErrorCode
+import okhttp3.testing.Flaky
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -121,7 +127,7 @@ class FastFallbackTest {
         .build()
     )
     val response = call.execute()
-    assertThat(response.body!!.string()).isEqualTo("hello from IPv6")
+    assertThat(response.body.string()).isEqualTo("hello from IPv6")
 
     // In the process we made one successful connection attempt.
     assertThat(listener.recordedEventTypes().filter { it == "ConnectStart" }).hasSize(1)
@@ -150,7 +156,7 @@ class FastFallbackTest {
         .build()
     )
     val response = call.execute()
-    assertThat(response.body!!.string()).isEqualTo("hello from IPv6")
+    assertThat(response.body.string()).isEqualTo("hello from IPv6")
 
     // In the process we made one successful connection attempt.
     assertThat(listener.recordedEventTypes().filter { it == "ConnectStart" }).hasSize(1)
@@ -171,7 +177,7 @@ class FastFallbackTest {
         .build()
     )
     val response = call.execute()
-    assertThat(response.body!!.string()).isEqualTo("hello from IPv4")
+    assertThat(response.body.string()).isEqualTo("hello from IPv4")
 
     // In the process we made one successful connection attempt.
     assertThat(listener.recordedEventTypes().filter { it == "ConnectStart" }).hasSize(2)
@@ -193,7 +199,7 @@ class FastFallbackTest {
         .build()
     )
     val response = call.execute()
-    assertThat(response.body!!.string()).isEqualTo("hello from IPv6")
+    assertThat(response.body.string()).isEqualTo("hello from IPv6")
 
     // In the process we made two connection attempts including one failure.
     assertThat(listener.recordedEventTypes().filter { it == "ConnectStart" }).hasSize(1)
@@ -221,6 +227,7 @@ class FastFallbackTest {
   }
 
   @Test
+  @Flaky
   fun reachesIpv4AfterUnreachableIpv6Address() {
     dnsResults = listOf(
       TestUtil.UNREACHABLE_ADDRESS_IPV6.address,
@@ -238,7 +245,7 @@ class FastFallbackTest {
         .build()
     )
     val response = call.execute()
-    assertThat(response.body!!.string()).isEqualTo("hello from IPv4")
+    assertThat(response.body.string()).isEqualTo("hello from IPv4")
 
     // In the process we made two connection attempts including one failure.
     assertThat(listener.recordedEventTypes().filter { it == "ConnectStart" }).hasSize(2)
@@ -272,5 +279,76 @@ class FastFallbackTest {
     } catch (e: IOException) {
       assertThat(e).hasMessage("timeout")
     }
+  }
+
+  /**
+   * This test reproduces a crash where OkHttp attempted to use a deferred connection when the call
+   * already had a healthy connection. It sets up a deferred connection by stalling the IPv6
+   * connect, and it sets up a same-connection retry with [ErrorCode.REFUSED_STREAM].
+   *
+   * https://github.com/square/okhttp/pull/7190
+   */
+  @Test
+  fun preferCallConnectionOverDeferredConnection() {
+    // Make sure we have enough connection options to permit retries.
+    dnsResults = listOf(
+      localhostIpv4,
+      localhostIpv6,
+      TestUtil.UNREACHABLE_ADDRESS_IPV4.address,
+    )
+    serverIpv4.protocols = listOf(Protocol.H2_PRIOR_KNOWLEDGE)
+    serverIpv6.protocols = listOf(Protocol.H2_PRIOR_KNOWLEDGE)
+
+    // Yield the first IP address so the second IP address completes first.
+    val firstConnectLatch = CountDownLatch(1)
+    val socketFactory = object : DelegatingSocketFactory(SocketFactory.getDefault()) {
+      var first = true
+
+      override fun createSocket(): Socket {
+        if (first) {
+          first = false
+          firstConnectLatch.await()
+        }
+        return super.createSocket()
+      }
+    }
+
+    client = client.newBuilder()
+      .protocols(listOf(Protocol.H2_PRIOR_KNOWLEDGE))
+      .socketFactory(socketFactory)
+      .addNetworkInterceptor(Interceptor { chain ->
+        try {
+          chain.proceed(chain.request())
+        } finally {
+          firstConnectLatch.countDown()
+        }
+      })
+      .build()
+
+    // Set up a same-connection retry.
+    serverIpv4.enqueue(
+      MockResponse()
+        .setSocketPolicy(SocketPolicy.RESET_STREAM_AT_START)
+        .setHttp2ErrorCode(ErrorCode.REFUSED_STREAM.httpCode)
+    )
+    serverIpv4.enqueue(
+      MockResponse()
+        .setBody("this was the 2nd request on IPv4")
+    )
+    serverIpv6.enqueue(
+      MockResponse()
+        .setBody("unexpected call to IPv6")
+    )
+
+    // Confirm the retry succeeds on the same connection.
+    val call = client.newCall(
+      Request.Builder()
+        .url(url)
+        .build()
+    )
+    val response = call.execute()
+    assertThat(response.body.string()).isEqualTo("this was the 2nd request on IPv4")
+    assertThat(serverIpv4.takeRequest().sequenceNumber).isEqualTo(0)
+    assertThat(serverIpv4.takeRequest().sequenceNumber).isEqualTo(1)
   }
 }
