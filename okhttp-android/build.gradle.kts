@@ -11,6 +11,7 @@ plugins {
 
 android {
   compileSdk = 31
+  namespace = "okhttp.android.test"
 
   defaultConfig {
     minSdk = 21
