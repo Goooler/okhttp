@@ -54,7 +54,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Tag("Slowish")
 public final class DuplexTest {
   @RegisterExtension public final PlatformRule platform = new PlatformRule();
-  @RegisterExtension public OkHttpClientTestRule clientTestRule = new OkHttpClientTestRule();
+  @RegisterExtension public final OkHttpClientTestRule clientTestRule = new OkHttpClientTestRule();
 
   private MockWebServer server;
   private RecordingEventListener listener = new RecordingEventListener();

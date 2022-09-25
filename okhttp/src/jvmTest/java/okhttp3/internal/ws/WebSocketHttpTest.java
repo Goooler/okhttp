@@ -68,9 +68,12 @@ public final class WebSocketHttpTest {
   // Flaky https://github.com/square/okhttp/issues/4515
   // Flaky https://github.com/square/okhttp/issues/4953
 
-  @RegisterExtension OkHttpClientTestRule clientTestRule = configureClientTestRule();
-  @RegisterExtension PlatformRule platform = new PlatformRule();
-  @RegisterExtension TestLogHandler testLogHandler = new TestLogHandler(OkHttpClient.class);
+  @RegisterExtension
+  final OkHttpClientTestRule clientTestRule = configureClientTestRule();
+  @RegisterExtension
+  final PlatformRule platform = new PlatformRule();
+  @RegisterExtension
+  final TestLogHandler testLogHandler = new TestLogHandler(OkHttpClient.class);
 
   private MockWebServer webServer;
   private final HandshakeCertificates handshakeCertificates = localhost();

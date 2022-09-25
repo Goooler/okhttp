@@ -41,7 +41,7 @@ public final class EventSourcesHttpTest {
   @RegisterExtension public final OkHttpClientTestRule clientTestRule = new OkHttpClientTestRule();
 
   private final EventSourceRecorder listener = new EventSourceRecorder();
-  private OkHttpClient client = clientTestRule.newClient();
+  private final OkHttpClient client = clientTestRule.newClient();
 
   @BeforeEach public void before(MockWebServer server) {
     this.server = server;

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlatformTest {
-  @RegisterExtension public PlatformRule platform = new PlatformRule();
+  @RegisterExtension public final PlatformRule platform = new PlatformRule();
 
   @Test public void alwaysBuilds() {
     new Platform();

@@ -51,8 +51,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public final class CertificatePinnerChainValidationTest {
-  @RegisterExtension PlatformRule platform = new PlatformRule();
-  @RegisterExtension OkHttpClientTestRule clientTestRule = new OkHttpClientTestRule();
+  @RegisterExtension
+  final PlatformRule platform = new PlatformRule();
+  @RegisterExtension
+  final OkHttpClientTestRule clientTestRule = new OkHttpClientTestRule();
 
   private MockWebServer server;
 
