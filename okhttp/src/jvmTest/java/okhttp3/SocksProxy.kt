@@ -148,8 +148,7 @@ class SocksProxy {
     val reserved = fromSource.readByte() and 0xff
     if (reserved != 0) throw ProtocolException("unexpected reserved: $reserved")
 
-    val addressType = fromSource.readByte() and 0xff
-    val toAddress = when (addressType) {
+    val toAddress = when (val addressType = fromSource.readByte() and 0xff) {
       ADDRESS_TYPE_IPV4 -> {
         InetAddress.getByAddress(fromSource.readByteArray(4L))
       }

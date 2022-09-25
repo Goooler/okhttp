@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.JavadocJar
-
 plugins {
   id("com.android.library")
   kotlin("android")

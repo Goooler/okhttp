@@ -143,12 +143,12 @@ class ServerTruncatesRequestTest {
       try {
         SlowRequestBody.writeTo(requestBodyOut)
         fail("")
-      } catch (expected: IOException) {
+      } catch (_: IOException) {
       }
       try {
         requestBodyOut.close()
         fail("")
-      } catch (expected: IOException) {
+      } catch (_: IOException) {
       }
     }
 
@@ -207,7 +207,7 @@ class ServerTruncatesRequestTest {
       var closed = false
 
       override fun connectionAcquired(call: Call, connection: Connection) {
-        socket = connection.socket() as SSLSocket
+        socket = connection.socket()
       }
 
       override fun requestHeadersStart(call: Call) {

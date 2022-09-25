@@ -227,7 +227,7 @@ class ConnectionReuseTest {
     try {
       anotherClient.newCall(request).execute()
       fail<Any?>()
-    } catch (expected: SSLException) {
+    } catch (_: SSLException) {
     }
   }
 

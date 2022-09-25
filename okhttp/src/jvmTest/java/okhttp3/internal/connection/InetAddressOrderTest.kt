@@ -23,11 +23,11 @@ import java.net.Inet6Address
 import org.junit.jupiter.api.Test
 
 class InetAddressOrderTest {
-  val ipv4_10_0_0_6 = Inet4Address.getByName("10.0.0.6")
-  val ipv4_10_0_0_1 = Inet4Address.getByName("10.0.0.1")
-  val ipv4_10_0_0_4 = Inet4Address.getByName("10.0.0.4")
-  val ipv6_ab = Inet6Address.getByName("::ac")
-  val ipv6_fc = Inet6Address.getByName("::fc")
+  val ipv4_10_0_0_6: InetAddress = Inet4Address.getByName("10.0.0.6")
+  val ipv4_10_0_0_1: InetAddress = Inet4Address.getByName("10.0.0.1")
+  val ipv4_10_0_0_4: InetAddress = Inet4Address.getByName("10.0.0.4")
+  val ipv6_ab: InetAddress = Inet6Address.getByName("::ac")
+  val ipv6_fc: InetAddress = Inet6Address.getByName("::fc")
 
   @Test fun prioritiseIpv6Example() {
     val result = reorderForHappyEyeballs(

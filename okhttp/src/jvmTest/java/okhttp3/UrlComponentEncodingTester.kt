@@ -215,7 +215,7 @@ internal class UrlComponentEncodingTester private constructor() {
     try {
       component[builder] = codePointString
       fail<Any>(format("Accepted forbidden code point %s %#x", component, codePoint))
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 

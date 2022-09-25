@@ -25,7 +25,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class SslLabsScraper(
-  private val callFactory: Call.Factory,
+  callFactory: Call.Factory,
 ) {
   private val moshi = Moshi.Builder().build()
 

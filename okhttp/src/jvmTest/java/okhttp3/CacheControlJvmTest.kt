@@ -15,14 +15,11 @@
  */
 package okhttp3
 
-import okhttp3.CacheControl.Companion.parse
-import okhttp3.Headers.Companion.headersOf
-import org.junit.jupiter.api.Test
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
+import okhttp3.Headers.Companion.headersOf
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
 class CacheControlJvmTest {
   @Test
@@ -193,7 +190,7 @@ class CacheControlJvmTest {
     try {
       builder.maxAge(-1, TimeUnit.SECONDS)
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 

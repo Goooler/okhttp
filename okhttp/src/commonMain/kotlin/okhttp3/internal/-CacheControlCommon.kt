@@ -15,7 +15,6 @@
  */
 package okhttp3.internal
 
-import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import okhttp3.CacheControl

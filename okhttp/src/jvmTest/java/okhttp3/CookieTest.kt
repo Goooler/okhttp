@@ -17,10 +17,8 @@ package okhttp3
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Arrays
-import java.util.Date
+import java.util.*
 import okhttp3.Cookie.Companion.parse
-import okhttp3.Cookie.Companion.parseAll
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.internal.UTC
 import okhttp3.internal.http.MAX_DATE
@@ -439,7 +437,7 @@ class CookieTest {
     try {
       Cookie.Builder().name(" a ")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -447,7 +445,7 @@ class CookieTest {
     try {
       Cookie.Builder().value(" b ")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -485,7 +483,7 @@ class CookieTest {
     try {
       Cookie.Builder().hostOnlyDomain("a/b")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -513,7 +511,7 @@ class CookieTest {
     try {
       Cookie.Builder().path("foo")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 

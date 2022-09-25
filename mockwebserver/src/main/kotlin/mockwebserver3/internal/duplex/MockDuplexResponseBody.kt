@@ -60,7 +60,7 @@ class MockDuplexResponseBody : DuplexResponseBody {
       try {
         requestBody.exhausted()
         throw AssertionError("expected IOException")
-      } catch (expected: IOException) {
+      } catch (_: IOException) {
       }
     }
   }

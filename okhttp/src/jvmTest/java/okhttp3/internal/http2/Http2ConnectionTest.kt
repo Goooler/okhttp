@@ -242,7 +242,7 @@ class Http2ConnectionTest {
     try {
       connection.newStream(headerEntries("c", "cola"), true)
       fail<Any?>()
-    } catch (expected: ConnectionShutdownException) {
+    } catch (_: ConnectionShutdownException) {
     }
     assertThat(stream1.isOpen).isTrue
     assertThat(stream2.isOpen).isFalse
@@ -490,12 +490,12 @@ class Http2ConnectionTest {
     try {
       connection.newStream(headerEntries("a", longString), false)
       fail<Any?>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     try {
       connection.newStream(headerEntries("b", longString), false)
       fail<Any?>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -742,7 +742,7 @@ class Http2ConnectionTest {
     try {
       stream.trailers()
       fail<Any?>()
-    } catch (expected: IllegalStateException) {
+    } catch (_: IllegalStateException) {
     }
   }
 
@@ -763,7 +763,7 @@ class Http2ConnectionTest {
     try {
       stream.trailers()
       fail<Any?>()
-    } catch (expected: StreamResetException) {
+    } catch (_: StreamResetException) {
     }
   }
 
@@ -784,7 +784,7 @@ class Http2ConnectionTest {
     try {
       stream.enqueueTrailers(headersOf("trailers", "boom"))
       fail<Any?>()
-    } catch (expected: IllegalStateException) {
+    } catch (_: IllegalStateException) {
     }
   }
 
@@ -1368,7 +1368,7 @@ class Http2ConnectionTest {
     try {
       connection.newStream(headerEntries("c", "cola"), false)
       fail<Any?>()
-    } catch (expected: ConnectionShutdownException) {
+    } catch (_: ConnectionShutdownException) {
     }
     assertThat(stream1.isOpen).isTrue
     assertThat(stream2.isOpen).isFalse
@@ -1440,7 +1440,7 @@ class Http2ConnectionTest {
     try {
       connection.newStream(headerEntries("b", "banana"), false)
       fail<Any?>()
-    } catch (expected: ConnectionShutdownException) {
+    } catch (_: ConnectionShutdownException) {
     }
     val sink = stream.getSink().buffer()
     try {
@@ -1483,7 +1483,7 @@ class Http2ConnectionTest {
     try {
       stream.takeHeaders()
       fail<Any?>()
-    } catch (expected: InterruptedIOException) {
+    } catch (_: InterruptedIOException) {
     }
     val elapsedNanos = System.nanoTime() - startNanos
     awaitWatchdogIdle()
@@ -1526,7 +1526,7 @@ class Http2ConnectionTest {
     try {
       source.require(4)
       fail<Any?>()
-    } catch (expected: InterruptedIOException) {
+    } catch (_: InterruptedIOException) {
     }
     val elapsedNanos = System.nanoTime() - startNanos
     awaitWatchdogIdle()
@@ -1579,7 +1579,7 @@ class Http2ConnectionTest {
     try {
       sink.flush() // This will time out waiting on the write window.
       fail<Any?>()
-    } catch (expected: InterruptedIOException) {
+    } catch (_: InterruptedIOException) {
     }
     val elapsedNanos = System.nanoTime() - startNanos
     awaitWatchdogIdle()
@@ -1624,7 +1624,7 @@ class Http2ConnectionTest {
     try {
       sink.flush() // This will time out waiting on the write window.
       fail<Any?>()
-    } catch (expected: InterruptedIOException) {
+    } catch (_: InterruptedIOException) {
     }
     val elapsedNanos = System.nanoTime() - startNanos
     awaitWatchdogIdle()
@@ -1831,7 +1831,7 @@ class Http2ConnectionTest {
     try {
       source.buffer().readByteString(101)
       fail<Any?>()
-    } catch (expected: EOFException) {
+    } catch (_: EOFException) {
     }
   }
 

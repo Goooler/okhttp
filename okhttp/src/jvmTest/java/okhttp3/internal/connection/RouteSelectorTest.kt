@@ -86,13 +86,13 @@ class RouteSelectorTest {
     try {
       selection.next()
       fail<Any>()
-    } catch (expected: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
     }
     assertThat(routeSelector.hasNext()).isFalse
     try {
       routeSelector.next()
       fail<Any>()
-    } catch (expected: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
     }
   }
 
@@ -111,13 +111,13 @@ class RouteSelectorTest {
     try {
       selection.next()
       fail<Any>()
-    } catch (expected: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
     }
     assertThat(routeSelector.hasNext()).isFalse
     try {
       routeSelector.next()
       fail<Any>()
-    } catch (expected: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
     }
   }
 
@@ -277,7 +277,7 @@ class RouteSelectorTest {
     try {
       routeSelector.next()
       fail<Any>()
-    } catch (expected: UnknownHostException) {
+    } catch (_: UnknownHostException) {
     }
     dns.assertRequests(proxyBHost)
     assertThat(routeSelector.hasNext()).isTrue

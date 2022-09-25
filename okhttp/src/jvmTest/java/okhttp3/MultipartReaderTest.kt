@@ -115,13 +115,13 @@ class MultipartReaderTest {
     try {
       assertThat(part.body.readUtf8()).isEqualTo("abcd\r\nefgh\r\n")
       fail()
-    } catch (expected: EOFException) {
+    } catch (_: EOFException) {
     }
 
     try {
       assertThat(parts.nextPart()).isNull()
       fail()
-    } catch (expected: EOFException) {
+    } catch (_: EOFException) {
     }
   }
 
@@ -140,7 +140,7 @@ class MultipartReaderTest {
     try {
       parts.nextPart()
       fail()
-    } catch (expected: EOFException) {
+    } catch (_: EOFException) {
     }
   }
 
@@ -504,7 +504,7 @@ class MultipartReaderTest {
     try {
       parts.nextPart()
       fail()
-    } catch (expected: EOFException) {
+    } catch (_: EOFException) {
     }
   }
 

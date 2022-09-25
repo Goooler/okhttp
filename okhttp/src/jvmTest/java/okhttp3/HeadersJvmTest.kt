@@ -99,12 +99,12 @@ class HeadersJvmTest {
     try {
       Headers.Builder().add(": bar")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       Headers.Builder().add(" : bar")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -112,7 +112,7 @@ class HeadersJvmTest {
     try {
       Headers.Builder().add("foo bar")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -120,7 +120,7 @@ class HeadersJvmTest {
     try {
       Headers.Builder().add(":status: 200 OK")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -147,7 +147,7 @@ class HeadersJvmTest {
     try {
       (mapOf("User-Agent" to null) as Map<String, String>).toHeaders()
       fail()
-    } catch (expected: NullPointerException) {
+    } catch (_: NullPointerException) {
     }
   }
 

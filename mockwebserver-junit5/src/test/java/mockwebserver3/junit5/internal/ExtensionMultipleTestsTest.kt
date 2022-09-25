@@ -18,7 +18,6 @@ package mockwebserver3.junit5.internal
 import mockwebserver3.MockWebServer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockWebServerExtension::class)

@@ -522,9 +522,9 @@ class MockWebServer : Closeable {
           openClientSockets.remove(raw)
         }
         else -> {
-          protocol = when {
-            Protocol.H2_PRIOR_KNOWLEDGE in protocols -> Protocol.H2_PRIOR_KNOWLEDGE
-            else -> Protocol.HTTP_1_1
+          protocol = when (Protocol.H2_PRIOR_KNOWLEDGE) {
+              in protocols -> Protocol.H2_PRIOR_KNOWLEDGE
+              else -> Protocol.HTTP_1_1
           }
           socket = raw
         }
@@ -672,7 +672,7 @@ class MockWebServer : Closeable {
     try {
       socket.startHandshake() // we're testing a handshake failure
       throw AssertionError()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     socket.close()
   }

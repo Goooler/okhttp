@@ -38,7 +38,7 @@ class MockWebServerRuleTest {
     try {
       rule.server.url("/").toUrl().openConnection().connect()
       fail()
-    } catch (expected: ConnectException) {
+    } catch (_: ConnectException) {
     }
   }
 }

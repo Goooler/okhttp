@@ -77,7 +77,7 @@ class WebPlatformUrlTest {
       .overridingErrorMessage("Expected URL to parse successfully, but was null")
       .isNotNull()
     val effectivePort = when {
-      url!!.port != defaultPort(url.scheme) -> Integer.toString(url.port)
+      url.port != defaultPort(url.scheme) -> Integer.toString(url.port)
       else -> ""
     }
     val effectiveQuery = when {

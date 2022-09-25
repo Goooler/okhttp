@@ -235,7 +235,7 @@ open class CallTest {
     try {
       Request.Builder().method("GET", "abc".toRequestBody("text/plain".toMediaType()))
       fail<Unit>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -869,7 +869,7 @@ open class CallTest {
       // If this succeeds, too many requests were made.
       client.newCall(request).execute()
       fail<Unit>()
-    } catch (expected: InterruptedIOException) {
+    } catch (_: InterruptedIOException) {
     }
   }
 
@@ -1194,7 +1194,7 @@ open class CallTest {
     try {
       client.newCall(request).execute()
       fail<Unit>()
-    } catch (expected: SSLHandshakeException) {
+    } catch (_: SSLHandshakeException) {
     }
     val firstSocket = clientSocketFactory.socketsCreated[0]
     assertThat(firstSocket.enabledCipherSuites)
@@ -2272,7 +2272,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     assertThat(server.requestCount).isEqualTo(0)
   }
@@ -2300,7 +2300,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     val elapsedNanos = System.nanoTime() - startNanos
     assertThat(TimeUnit.NANOSECONDS.toMillis(elapsedNanos).toFloat())
@@ -2351,7 +2351,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -2364,13 +2364,13 @@ open class CallTest {
     server.enqueue(MockResponse().setBody("def").throttleBody(1, 750, TimeUnit.MILLISECONDS))
     val call = client.newCall(Request(server.url("/a")))
     val executor = Executors.newSingleThreadExecutor()
-    val result = executor.submit<Response?> { call.execute() }
+    val result = executor.submit { call.execute() }
     Thread.sleep(100) // wait for it to go in flight.
     call.cancel()
     try {
       result.get()!!.body.bytes()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     assertThat(server.requestCount).isEqualTo(1)
   }
@@ -2387,7 +2387,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     assertThat(server.takeRequest().path).isEqualTo("/a")
   }
@@ -2527,7 +2527,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     assertThat(server.requestCount).isEqualTo(0)
   }
@@ -2715,7 +2715,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
     val recordedRequest = server.takeRequest()
     assertThat(recordedRequest.body.readUtf8()).isEqualTo("")
@@ -2766,7 +2766,7 @@ open class CallTest {
     try {
       call.execute()
       fail<Unit>()
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
     val recordedRequest = server.takeRequest()
     assertThat(recordedRequest.body.readUtf8()).isEqualTo("abc")
@@ -3119,7 +3119,7 @@ open class CallTest {
     try {
       client.newCall(request).execute()
       fail<Unit>()
-    } catch (expected: ProtocolException) {
+    } catch (_: ProtocolException) {
     }
   }
 
@@ -3261,7 +3261,7 @@ open class CallTest {
     try {
       client.newCall(request).execute()
       fail<Unit>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 

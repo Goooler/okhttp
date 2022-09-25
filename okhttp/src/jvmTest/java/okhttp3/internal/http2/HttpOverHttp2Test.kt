@@ -647,7 +647,7 @@ class HttpOverHttp2Test {
     try {
       call2.execute()
       fail<Any?>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
 
     // Confirm that the connection was reused.
@@ -1544,8 +1544,8 @@ class HttpOverHttp2Test {
     try {
       call1.execute()
       fail<Any?>()
-    } catch (expected: SocketTimeoutException) {
-    } catch (expected: SSLException) {
+    } catch (_: SocketTimeoutException) {
+    } catch (_: SSLException) {
     }
 
     // The second call times out because it uses the same bad connection.
@@ -1553,7 +1553,7 @@ class HttpOverHttp2Test {
     try {
       call2.execute()
       fail<Any?>()
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
 
     // But after the degraded pong timeout, that connection is abandoned.
@@ -1593,7 +1593,7 @@ class HttpOverHttp2Test {
         response.body.string()
         fail<Any?>()
       }
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
 
     // The second call succeeds.

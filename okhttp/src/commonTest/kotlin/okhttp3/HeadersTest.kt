@@ -34,7 +34,7 @@ class HeadersTest {
     try {
       headersOf("User-Agent", "OkHttp", "Content-Length")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -42,7 +42,7 @@ class HeadersTest {
     try {
       headersOf("", "OkHttp")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -65,7 +65,7 @@ class HeadersTest {
     try {
       headersOf("User-Agent", "Square\u0000OkHttp")
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -73,7 +73,7 @@ class HeadersTest {
     try {
       mapOf("" to "OkHttp").toHeaders()
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -81,7 +81,7 @@ class HeadersTest {
     try {
       mapOf(" " to "OkHttp").toHeaders()
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -112,7 +112,7 @@ class HeadersTest {
     try {
       mapOf("User-\u0000Agent" to "OkHttp").toHeaders()
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -120,7 +120,7 @@ class HeadersTest {
     try {
       mapOf("User-Agent" to "Square\u0000OkHttp").toHeaders()
       fail()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -289,14 +289,14 @@ class HeadersTest {
     try {
       headers.name(-1)
       fail()
-    } catch (expected: IndexOutOfBoundsException) {
+    } catch (_: IndexOutOfBoundsException) {
     }
     assertThat(headers.name(0)).isEqualTo("a")
     assertThat(headers.name(1)).isEqualTo("c")
     try {
       headers.name(2)
       fail()
-    } catch (expected: IndexOutOfBoundsException) {
+    } catch (_: IndexOutOfBoundsException) {
     }
   }
 
@@ -305,14 +305,14 @@ class HeadersTest {
     try {
       headers.value(-1)
       fail()
-    } catch (expected: IndexOutOfBoundsException) {
+    } catch (_: IndexOutOfBoundsException) {
     }
     assertThat(headers.value(0)).isEqualTo("b")
     assertThat(headers.value(1)).isEqualTo("d")
     try {
       headers.value(2)
       fail()
-    } catch (expected: IndexOutOfBoundsException) {
+    } catch (_: IndexOutOfBoundsException) {
     }
   }
 }

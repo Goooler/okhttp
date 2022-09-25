@@ -150,7 +150,7 @@ class OkHttpClientTest {
     try {
       builder.protocols(listOf(Protocol.HTTP_1_0, Protocol.HTTP_1_1))
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -230,7 +230,7 @@ class OkHttpClientTest {
     try {
       builder.socketFactory(SSLSocketFactory.getDefault())
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -241,7 +241,7 @@ class OkHttpClientTest {
     try {
       client.sslSocketFactory
       fail<Any>()
-    } catch (expected: IllegalStateException) {
+    } catch (_: IllegalStateException) {
     }
   }
 

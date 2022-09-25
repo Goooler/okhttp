@@ -54,7 +54,7 @@ class FakeRoutePlanner(
 
   override fun plan(): FakePlan {
     // Return deferred plans preferentially. These don't require addPlan().
-    if (deferredPlans.isNotEmpty()) return deferredPlans.removeFirst() as FakePlan
+    if (deferredPlans.isNotEmpty()) return deferredPlans.removeFirst()
 
     require(nextPlanIndex < plans.size) {
       "not enough plans! call addPlan() in the test to set this up"

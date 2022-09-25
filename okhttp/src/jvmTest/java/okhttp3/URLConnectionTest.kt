@@ -191,7 +191,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -202,7 +202,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -213,7 +213,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -224,7 +224,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -235,7 +235,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -349,7 +349,7 @@ class URLConnectionTest {
           .build()
       )
       fail<Any>()
-    } catch (expected: UnknownHostException) {
+    } catch (_: UnknownHostException) {
     }
   }
 
@@ -575,7 +575,7 @@ class URLConnectionTest {
       fail<Any>(
         "without an SSL socket factory, the connection should fail"
       )
-    } catch (expected: SSLException) {
+    } catch (_: SSLException) {
     }
   }
 
@@ -754,7 +754,7 @@ class URLConnectionTest {
       val response = getResponse(newRequest("/"))
       response.body.source().readUtf8(5)
       fail<Any>()
-    } catch (expected: ProtocolException) {
+    } catch (_: ProtocolException) {
     }
   }
 
@@ -801,7 +801,7 @@ class URLConnectionTest {
     try {
       getResponse(newRequest("/"))
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     client = client.newBuilder()
       .socketFactory(SocketFactory.getDefault())
@@ -849,7 +849,7 @@ class URLConnectionTest {
       val response = getResponse(newRequest("/"))
       response.body.source().readUtf8(7)
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -1164,7 +1164,7 @@ class URLConnectionTest {
       // But 'C' shouldn't be buffered (the response is throttled) and this should fail.
       inputStream.read()
       fail<Any>("Expected a connection closed exception")
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     inputStream.close()
   }
@@ -1204,7 +1204,7 @@ class URLConnectionTest {
     try {
       call.execute()
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -1260,7 +1260,7 @@ class URLConnectionTest {
     try {
       inputStream.reset()
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
     assertThat(readAscii(inputStream, Int.MAX_VALUE)).isEqualTo(
       "FGHIJKLMNOPQRSTUVWXYZ"
@@ -1303,7 +1303,7 @@ class URLConnectionTest {
         response.body.string()
         fail<Any>()
       }
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -1320,7 +1320,7 @@ class URLConnectionTest {
         readAscii(response.body.byteStream(), Int.MAX_VALUE)
         fail<Any>()
       }
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -1349,7 +1349,7 @@ class URLConnectionTest {
         readAscii(response.body.byteStream(), Int.MAX_VALUE)
         fail<Any>()
       }
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -1812,7 +1812,7 @@ class URLConnectionTest {
         .method(requestMethod, "abc".toRequestBody(null))
         .build()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -1831,7 +1831,7 @@ class URLConnectionTest {
         .method(requestMethod, null)
         .build()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -2825,7 +2825,7 @@ class URLConnectionTest {
     try {
       source.readByte() // If Content-Length was accurate, this would return -1 immediately.
       fail<Any>()
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
     source.close()
   }
@@ -2874,7 +2874,7 @@ class URLConnectionTest {
     try {
       getResponse(request)
       fail<Any>()
-    } catch (expected: SocketTimeoutException) {
+    } catch (_: SocketTimeoutException) {
     }
   }
 
@@ -3052,13 +3052,13 @@ class URLConnectionTest {
     try {
       sinkReference.get().flush()
       fail<Any>()
-    } catch (expected: IllegalStateException) {
+    } catch (_: IllegalStateException) {
     }
     try {
       sinkReference.get().write("ghi".toByteArray())
       sinkReference.get().emit()
       fail<Any>()
-    } catch (expected: IllegalStateException) {
+    } catch (_: IllegalStateException) {
     }
   }
 
@@ -3071,7 +3071,7 @@ class URLConnectionTest {
     try {
       getResponse(newRequest("/"))
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -3083,7 +3083,7 @@ class URLConnectionTest {
     try {
       getResponse(Request("http://host.unlikelytld".toHttpUrl()))
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -3092,7 +3092,7 @@ class URLConnectionTest {
     try {
       getResponse(Request("http://-/foo.html".toHttpUrl()))
       fail<Any>()
-    } catch (expected: UnknownHostException) {
+    } catch (_: UnknownHostException) {
     }
   }
 
@@ -3113,7 +3113,7 @@ class URLConnectionTest {
     try {
       getResponse(newRequest("/"))
       fail<Any>()
-    } catch (expected: ConnectException) {
+    } catch (_: ConnectException) {
     }
   }
 
@@ -3143,7 +3143,7 @@ class URLConnectionTest {
         .method("GET", "abc".toRequestBody(null))
         .build()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3223,7 +3223,7 @@ class URLConnectionTest {
         .method("HEAD", "".toRequestBody(null))
         .build()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3391,7 +3391,7 @@ class URLConnectionTest {
         )
       )
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -3418,7 +3418,7 @@ class URLConnectionTest {
         )
       )
       fail<Any>()
-    } catch (expected: IOException) {
+    } catch (_: IOException) {
     }
   }
 
@@ -3478,7 +3478,7 @@ class URLConnectionTest {
         .header("", "A")
         .build()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3503,31 +3503,31 @@ class URLConnectionTest {
       Request.Builder()
         .addHeader("a\tb", "Value")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       Request.Builder()
         .addHeader("Name", "c\u007fd")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       Request.Builder()
         .addHeader("", "Value")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       Request.Builder()
         .addHeader("\ud83c\udf69", "Value")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       Request.Builder()
         .addHeader("Name", "\u2615\ufe0f")
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3786,7 +3786,7 @@ class URLConnectionTest {
       OkHttpClient.Builder()
         .protocols(Arrays.asList(Protocol.HTTP_2))
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3796,7 +3796,7 @@ class URLConnectionTest {
       OkHttpClient.Builder()
         .protocols(Arrays.asList(Protocol.HTTP_1_1, null))
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3952,7 +3952,7 @@ class URLConnectionTest {
     try {
       "http://and roid.com/".toHttpUrl()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3961,7 +3961,7 @@ class URLConnectionTest {
     try {
       "http://and roid.com/".toHttpUrl()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3970,7 +3970,7 @@ class URLConnectionTest {
     try {
       "http://host\u0000/".toHttpUrl()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -3992,7 +3992,7 @@ class URLConnectionTest {
     try {
       "http://host\u0001/".toHttpUrl()
       fail<Any>()
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -4004,7 +4004,7 @@ class URLConnectionTest {
       client.newBuilder()
         .sslSocketFactory(handshakeCertificates.sslSocketFactory())
       fail<Any>()
-    } catch (expected: UnsupportedOperationException) {
+    } catch (_: UnsupportedOperationException) {
     }
   }
 

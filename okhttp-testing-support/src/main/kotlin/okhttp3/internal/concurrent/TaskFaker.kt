@@ -65,7 +65,7 @@ class TaskFaker : Closeable {
   @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "NOTHING_TO_INLINE")
   internal inline fun Any.notifyAll() = (this as Object).notifyAll()
 
-  val logger = Logger.getLogger("TaskFaker." + instance++)
+  val logger: Logger = Logger.getLogger("TaskFaker." + instance++)
 
   /** Though this executor service may hold many threads, they are not executed concurrently. */
   private val tasksExecutor = Executors.newCachedThreadPool()

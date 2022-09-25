@@ -86,7 +86,7 @@ internal fun Array<String>.hasIntersection(
   other: Array<String>?,
   comparator: Comparator<in String>
 ): Boolean {
-  if (isEmpty() || other == null || other.isEmpty()) {
+  if (isEmpty() || other.isNullOrEmpty()) {
     return false
   }
   for (a in this) {

@@ -115,8 +115,7 @@ object Punycode {
       var w = 1
       for (k in base until Int.MAX_VALUE step base) {
         if (pos == limit) return false // Malformed.
-        val c = string[pos++]
-        val digit = when (c) {
+        val digit = when (val c = string[pos++]) {
           in 'a'..'z' -> c - 'a'
           in 'A'..'Z' -> c - 'A'
           in '0'..'9' -> c - '0' + 26

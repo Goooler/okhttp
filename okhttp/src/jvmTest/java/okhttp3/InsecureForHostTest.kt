@@ -87,7 +87,7 @@ class InsecureForHostTest {
     try {
       call.execute()
       fail("")
-    } catch (expected: SSLException) {
+    } catch (_: SSLException) {
     }
   }
 
@@ -109,7 +109,7 @@ class InsecureForHostTest {
     try {
       call.execute()
       fail("")
-    } catch (expected: SSLException) {
+    } catch (_: SSLException) {
     }
   }
 }

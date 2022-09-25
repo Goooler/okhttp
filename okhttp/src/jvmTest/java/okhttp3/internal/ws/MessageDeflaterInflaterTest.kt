@@ -101,7 +101,7 @@ internal class MessageDeflaterInflaterTest {
     try {
       deflater.deflate("Hello deflate!".encodeUtf8())
       fail()
-    } catch (expected: Exception) {
+    } catch (_: Exception) {
     }
   }
 
@@ -113,7 +113,7 @@ internal class MessageDeflaterInflaterTest {
     try {
       inflater.inflate("f240e30300".decodeHex())
       fail()
-    } catch (expected: Exception) {
+    } catch (_: Exception) {
     }
   }
 

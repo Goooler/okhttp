@@ -271,12 +271,12 @@ class RequestTest {
     try {
       builder.header("", "Value")
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       builder.addHeader("", "Value")
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -287,7 +287,7 @@ class RequestTest {
     try {
       builder.header("sample\tkey", "value")
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
@@ -307,22 +307,22 @@ class RequestTest {
     try {
       builder.header(s, "Value")
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       builder.addHeader(s, "Value")
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       builder.header("Name", s)
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
     try {
       builder.addHeader("Name", s)
       fail("")
-    } catch (expected: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
     }
   }
 
