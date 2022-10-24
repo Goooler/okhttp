@@ -17,9 +17,24 @@
 
 package okhttp3
 
-import okhttp3.internal.*
+import okhttp3.internal.commonAdd
+import okhttp3.internal.commonAddAll
+import okhttp3.internal.commonBuild
+import okhttp3.internal.commonEquals
+import okhttp3.internal.commonGet
+import okhttp3.internal.commonHashCode
+import okhttp3.internal.commonHeadersGet
+import okhttp3.internal.commonHeadersOf
+import okhttp3.internal.commonIterator
+import okhttp3.internal.commonName
+import okhttp3.internal.commonNewBuilder
+import okhttp3.internal.commonRemoveAll
+import okhttp3.internal.commonSet
+import okhttp3.internal.commonToHeaders
+import okhttp3.internal.commonToString
+import okhttp3.internal.commonValue
+import okhttp3.internal.commonValues
 
-@Suppress("NAME_SHADOWING")
 actual class Headers internal actual constructor(
   internal actual val namesAndValues: Array<String>
 ) : Iterable<Pair<String, String>> {
