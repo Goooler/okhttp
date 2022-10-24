@@ -17,7 +17,7 @@ package okhttp3
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import okhttp3.Cookie.Companion.parse
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.internal.UTC
