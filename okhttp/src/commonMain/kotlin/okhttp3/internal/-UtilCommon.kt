@@ -182,7 +182,7 @@ fun String.delimiterOffset(
  * `\u0000` or `\n`) or a non-ASCII character. Returns -1 if this string has no such characters.
  */
 internal fun String.indexOfControlOrNonAscii(): Int {
-  for (i in 0 until length) {
+  for (i in indices) {
     val c = this[i]
     if (c <= '\u001f' || c >= '\u007f') {
       return i
