@@ -1111,12 +1111,12 @@ class HttpOverHttp2Test {
   @ParameterizedTest @ArgumentsSource(ProtocolParamProvider::class)
   fun recoverFromMultipleCancelReusesConnection(protocol: Protocol, mockWebServer: MockWebServer) {
     setUp(protocol, mockWebServer)
-    val responseDequeuedLatches = Arrays.asList(
+    val responseDequeuedLatches = listOf(
       CountDownLatch(1),
       CountDownLatch(1), // No synchronization for the last request, which is not canceled.
       CountDownLatch(0)
     )
-    val requestCanceledLatches = Arrays.asList(
+    val requestCanceledLatches = listOf(
       CountDownLatch(1),
       CountDownLatch(1),
       CountDownLatch(0)

@@ -77,10 +77,10 @@ class KotlinDeprecationErrorTest {
     val protocols: List<Protocol> = address.protocols()
     val connectionSpecs: List<ConnectionSpec> = address.connectionSpecs()
     val proxySelector: ProxySelector = address.proxySelector()
-    val proxy: Proxy? = address.proxy()
-    val sslSocketFactory: SSLSocketFactory? = address.sslSocketFactory()
-    val hostnameVerifier: HostnameVerifier? = address.hostnameVerifier()
-    val certificatePinner: CertificatePinner? = address.certificatePinner()
+    val proxy: Proxy = address.proxy()
+    val sslSocketFactory: SSLSocketFactory = address.sslSocketFactory()
+    val hostnameVerifier: HostnameVerifier = address.hostnameVerifier()
+    val certificatePinner: CertificatePinner = address.certificatePinner()
   }
 
   @Test @Disabled
@@ -110,7 +110,7 @@ class KotlinDeprecationErrorTest {
     val challenge = Challenge("", mapOf("" to ""))
     val scheme: String = challenge.scheme()
     val authParams: Map<String?, String> = challenge.authParams()
-    val realm: String? = challenge.realm()
+    val realm: String = challenge.realm()
     val charset: Charset = challenge.charset()
   }
 
@@ -123,8 +123,8 @@ class KotlinDeprecationErrorTest {
   @Test @Disabled
   fun connectionSpec() {
     val connectionSpec: ConnectionSpec = ConnectionSpec.RESTRICTED_TLS
-    val tlsVersions: List<TlsVersion>? = connectionSpec.tlsVersions()
-    val cipherSuites: List<CipherSuite>? = connectionSpec.cipherSuites()
+    val tlsVersions: List<TlsVersion> = connectionSpec.tlsVersions()
+    val cipherSuites: List<CipherSuite> = connectionSpec.cipherSuites()
     val supportsTlsExtensions: Boolean = connectionSpec.supportsTlsExtensions()
   }
 
@@ -155,9 +155,9 @@ class KotlinDeprecationErrorTest {
     val tlsVersion: TlsVersion = handshake.tlsVersion()
     val cipherSuite: CipherSuite = handshake.cipherSuite()
     val peerCertificates: List<Certificate> = handshake.peerCertificates()
-    val peerPrincipal: Principal? = handshake.peerPrincipal()
+    val peerPrincipal: Principal = handshake.peerPrincipal()
     val localCertificates: List<Certificate> = handshake.localCertificates()
-    val localPrincipal: Principal? = handshake.localPrincipal()
+    val localPrincipal: Principal = handshake.localPrincipal()
   }
 
   @Test @Disabled
@@ -189,16 +189,16 @@ class KotlinDeprecationErrorTest {
     val encodedPath: String = httpUrl.encodedPath()
     val encodedPathSegments: List<String> = httpUrl.encodedPathSegments()
     val pathSegments: List<String> = httpUrl.pathSegments()
-    val encodedQuery: String? = httpUrl.encodedQuery()
-    val query: String? = httpUrl.query()
+    val encodedQuery: String = httpUrl.encodedQuery()
+    val query: String = httpUrl.query()
     val querySize: Int = httpUrl.querySize()
-    val queryParameter: String? = httpUrl.queryParameter("")
+    val queryParameter: String = httpUrl.queryParameter("")
     val queryParameterNames: Set<String> = httpUrl.queryParameterNames()
-    val encodedFragment: String? = httpUrl.encodedFragment()
-    val fragment: String? = httpUrl.fragment()
-    val getFromUrl: HttpUrl? = HttpUrl.get(URL(""))
-    val getFromUri: HttpUrl? = HttpUrl.get(URI(""))
-    val parse: HttpUrl? = HttpUrl.parse("")
+    val encodedFragment: String = httpUrl.encodedFragment()
+    val fragment: String = httpUrl.fragment()
+    val getFromUrl: HttpUrl = HttpUrl.get(URL(""))
+    val getFromUri: HttpUrl = HttpUrl.get(URI(""))
+    val parse: HttpUrl = HttpUrl.parse("")
   }
 
   @Test @Disabled
@@ -228,7 +228,7 @@ class KotlinDeprecationErrorTest {
     val mediaType: MediaType = MediaType.get("")
     val type: String = mediaType.type()
     val subtype: String = mediaType.subtype()
-    val parse: MediaType? = MediaType.parse("")
+    val parse: MediaType = MediaType.parse("")
   }
 
   @Test @Disabled
@@ -265,7 +265,7 @@ class KotlinDeprecationErrorTest {
   fun multipartBodyPart() {
     val multipartBody: MultipartBody = MultipartBody.Builder().build()
     val part: MultipartBody.Part = multipartBody.part(0)
-    val headers: Headers? = part.headers()
+    val headers: Headers = part.headers()
     val body: RequestBody = part.body()
   }
 
@@ -273,7 +273,7 @@ class KotlinDeprecationErrorTest {
   fun okHttpClient() {
     val client = OkHttpClient()
     val dispatcher: Dispatcher = client.dispatcher()
-    val proxy: Proxy? = client.proxy()
+    val proxy: Proxy = client.proxy()
     val protocols: List<Protocol> = client.protocols()
     val connectionSpecs: List<ConnectionSpec> = client.connectionSpecs()
     val interceptors: List<Interceptor> = client.interceptors()
@@ -281,7 +281,7 @@ class KotlinDeprecationErrorTest {
     val eventListenerFactory: EventListener.Factory = client.eventListenerFactory()
     val proxySelector: ProxySelector = client.proxySelector()
     val cookieJar: CookieJar = client.cookieJar()
-    val cache: Cache? = client.cache()
+    val cache: Cache = client.cache()
     val socketFactory: SocketFactory = client.socketFactory()
     val sslSocketFactory: SSLSocketFactory = client.sslSocketFactory()
     val hostnameVerifier: HostnameVerifier = client.hostnameVerifier()
@@ -321,7 +321,7 @@ class KotlinDeprecationErrorTest {
     val url: HttpUrl = request.url()
     val method: String = request.method()
     val headers: Headers = request.headers()
-    val body: RequestBody? = request.body()
+    val body: RequestBody = request.body()
     val cacheControl: CacheControl = request.cacheControl()
   }
 
@@ -332,12 +332,12 @@ class KotlinDeprecationErrorTest {
     val protocol: Protocol = response.protocol()
     val code: Int = response.code()
     val message: String = response.message()
-    val handshake: Handshake? = response.handshake()
+    val handshake: Handshake = response.handshake()
     val headers: Headers = response.headers()
     val body: ResponseBody = response.body()
-    val networkResponse: Response? = response.networkResponse()
-    val cacheResponse: Response? = response.cacheResponse()
-    val priorResponse: Response? = response.priorResponse()
+    val networkResponse: Response = response.networkResponse()
+    val cacheResponse: Response = response.cacheResponse()
+    val priorResponse: Response = response.priorResponse()
     val cacheControl: CacheControl = response.cacheControl()
     val sentRequestAtMillis: Long = response.sentRequestAtMillis()
     val receivedResponseAtMillis: Long = response.receivedResponseAtMillis()

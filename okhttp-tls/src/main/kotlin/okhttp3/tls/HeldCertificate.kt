@@ -125,7 +125,6 @@ import okio.ByteString.Companion.toByteString
  * a chain of certificates. The server uses a set of trusted root certificates to authenticate the
  * client. Subject alternative names are not used for client authentication.
  */
-@Suppress("DEPRECATION")
 class HeldCertificate(
   @get:JvmName("keyPair") val keyPair: KeyPair,
   @get:JvmName("certificate") val certificate: X509Certificate

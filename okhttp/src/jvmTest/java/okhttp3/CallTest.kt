@@ -2534,7 +2534,7 @@ open class CallTest {
 
   @Test fun gzip() {
     val gzippedBody = gzip("abcabcabc")
-    val bodySize = java.lang.Long.toString(gzippedBody.size)
+    val bodySize = gzippedBody.size.toString()
     server.enqueue(
       MockResponse()
         .setBody(gzippedBody)
@@ -3658,7 +3658,7 @@ open class CallTest {
       override fun writeTo(sink: BufferedSink) {
         var count = 0
         while (count < size) {
-          sink.write(buffer, 0, Math.min(size - count, writeSize.toLong()).toInt())
+          sink.write(buffer, 0, min(size - count, writeSize.toLong()).toInt())
           count += writeSize
         }
       }

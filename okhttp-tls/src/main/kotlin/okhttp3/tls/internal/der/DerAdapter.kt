@@ -73,7 +73,7 @@ internal interface DerAdapter<T> {
    *     writing process sets something else. This is used to encode SEQUENCES in values that are
    *     declared to have non-constructed values, like OCTET STRING values.
    */
-  @Suppress("UNCHECKED_CAST") // read() produces a single element of the expected type.
+  // read() produces a single element of the expected type.
   fun withExplicitBox(
     tagClass: Int = DerHeader.TAG_CLASS_CONTEXT_SPECIFIC,
     tag: Long,

@@ -315,6 +315,6 @@ public final class CertificatePinnerTest {
             new CertificatePinner.Pin("www.example.com", certA1Sha256Pin));
 
     assertEquals(expectedPins, builder.getPins());
-    assertEquals(new HashSet<>(expectedPins), certificatePinner.getPins());
+    assertEquals(new HashSet<CertificatePinner.Pin>(expectedPins), certificatePinner.getPins());
   }
 }

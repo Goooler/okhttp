@@ -545,7 +545,7 @@ class CookieTest {
   }
 
   @Test fun equalsAndHashCode() {
-    val cookieStrings = Arrays.asList(
+    val cookieStrings = listOf(
       "a=b; Path=/c; Domain=example.com; Max-Age=5; Secure; HttpOnly",
       "a= ; Path=/c; Domain=example.com; Max-Age=5; Secure; HttpOnly",
       "a=b;          Domain=example.com; Max-Age=5; Secure; HttpOnly",

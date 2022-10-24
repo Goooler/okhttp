@@ -144,7 +144,7 @@ class HandshakeCertificatesTest {
   }
 
   private fun doServerHandshake(server: HandshakeCertificates): Future<Handshake> {
-    return executorService.submit<Handshake> {
+    return executorService.submit {
       serverSocket!!.accept().use { rawSocket ->
         val sslSocket = server.sslSocketFactory().createSocket(
           rawSocket,
@@ -165,7 +165,7 @@ class HandshakeCertificatesTest {
   private fun doClientHandshake(
     client: HandshakeCertificates, serverAddress: InetSocketAddress
   ): Future<Handshake> {
-    return executorService.submit<Handshake> {
+    return executorService.submit {
       SocketFactory.getDefault().createSocket().use { rawSocket ->
         rawSocket.connect(serverAddress)
         val sslSocket = client.sslSocketFactory().createSocket(

@@ -69,7 +69,7 @@ public class HpackDecodeTestBase {
    */
   private static void assertSetEquals(
       String message, List<Header> expected, List<Header> observed) {
-    assertThat(new LinkedHashSet<>(observed)).overridingErrorMessage(message).isEqualTo(
-        new LinkedHashSet<>(expected));
+    assertThat(new LinkedHashSet<Header>(observed)).overridingErrorMessage(message).isEqualTo(
+        new LinkedHashSet<Header>(expected));
   }
 }

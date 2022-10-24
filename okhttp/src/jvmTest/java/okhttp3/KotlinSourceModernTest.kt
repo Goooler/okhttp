@@ -120,9 +120,9 @@ class KotlinSourceModernTest {
     val protocols: List<Protocol> = address.protocols
     val connectionSpecs: List<ConnectionSpec> = address.connectionSpecs
     val proxySelector: ProxySelector = address.proxySelector
-    val sslSocketFactory: SSLSocketFactory? = address.sslSocketFactory
-    val hostnameVerifier: HostnameVerifier? = address.hostnameVerifier
-    val certificatePinner: CertificatePinner? = address.certificatePinner
+    val sslSocketFactory: SSLSocketFactory = address.sslSocketFactory
+    val hostnameVerifier: HostnameVerifier = address.hostnameVerifier
+    val certificatePinner: CertificatePinner = address.certificatePinner
   }
 
   @Test
@@ -218,7 +218,7 @@ class KotlinSourceModernTest {
     challenge = Challenge("", "")
     val scheme: String = challenge.scheme
     val authParams: Map<String?, String> = challenge.authParams
-    val realm: String? = challenge.realm
+    val realm: String = challenge.realm
     val charset: Charset = challenge.charset
     val utf8: Challenge = challenge.withCharset(Charsets.UTF_8)
   }
@@ -255,8 +255,8 @@ class KotlinSourceModernTest {
     connectionSpec = ConnectionSpec.MODERN_TLS
     connectionSpec = ConnectionSpec.COMPATIBLE_TLS
     connectionSpec = ConnectionSpec.CLEARTEXT
-    val tlsVersions: List<TlsVersion>? = connectionSpec.tlsVersions
-    val cipherSuites: List<CipherSuite>? = connectionSpec.cipherSuites
+    val tlsVersions: List<TlsVersion> = connectionSpec.tlsVersions
+    val cipherSuites: List<CipherSuite> = connectionSpec.cipherSuites
     val supportsTlsExtensions: Boolean = connectionSpec.supportsTlsExtensions
     val compatible: Boolean = connectionSpec.isCompatible(
         localhost().sslSocketFactory().createSocket() as SSLSocket)
@@ -287,7 +287,7 @@ class KotlinSourceModernTest {
     val httpOnly: Boolean = cookie.httpOnly
     val secure: Boolean = cookie.secure
     val matches: Boolean = cookie.matches("".toHttpUrl())
-    val parsedCookie: Cookie? = Cookie.parse("".toHttpUrl(), "")
+    val parsedCookie: Cookie = Cookie.parse("".toHttpUrl(), "")
     val cookies: List<Cookie> = Cookie.parseAll("".toHttpUrl(), headersOf())
   }
 
@@ -446,18 +446,18 @@ class KotlinSourceModernTest {
     val tlsVersion: TlsVersion = handshake.tlsVersion
     val cipherSuite: CipherSuite = handshake.cipherSuite
     val peerCertificates: List<Certificate> = handshake.peerCertificates
-    val peerPrincipal: Principal? = handshake.peerPrincipal
+    val peerPrincipal: Principal = handshake.peerPrincipal
     val localCertificates: List<Certificate> = handshake.localCertificates
-    val localPrincipal: Principal? = handshake.localPrincipal
+    val localPrincipal: Principal = handshake.localPrincipal
   }
 
   @Test
   fun headers() {
     var headers: Headers = headersOf("", "")
     headers = mapOf("" to "").toHeaders()
-    val get: String? = headers[""]
-    val date: Date? = headers.getDate("")
-    val instant: Instant? = headers.getInstant("")
+    val get: String = headers[""]
+    val date: Date = headers.getDate("")
+    val instant: Instant = headers.getInstant("")
     val size: Int = headers.size
     val name: String = headers.name(0)
     val value: String = headers.value(0)
@@ -481,7 +481,7 @@ class KotlinSourceModernTest {
     builder = builder.set("", Date(0L))
     builder = builder.set("", Instant.EPOCH)
     builder = builder.removeAll("")
-    val get: String? = builder[""]
+    val get: String = builder[""]
     val headers: Headers = builder.build()
   }
 
@@ -526,21 +526,21 @@ class KotlinSourceModernTest {
     val encodedPath: String = httpUrl.encodedPath
     val encodedPathSegments: List<String> = httpUrl.encodedPathSegments
     val pathSegments: List<String> = httpUrl.pathSegments
-    val encodedQuery: String? = httpUrl.encodedQuery
-    val query: String? = httpUrl.query
+    val encodedQuery: String = httpUrl.encodedQuery
+    val query: String = httpUrl.query
     val querySize: Int = httpUrl.querySize
-    val queryParameter: String? = httpUrl.queryParameter("")
+    val queryParameter: String = httpUrl.queryParameter("")
     val queryParameterNames: Set<String> = httpUrl.queryParameterNames
     val queryParameterValues: List<String?> = httpUrl.queryParameterValues("")
     val queryParameterName: String = httpUrl.queryParameterName(0)
-    val queryParameterValue: String? = httpUrl.queryParameterValue(0)
-    val encodedFragment: String? = httpUrl.encodedFragment
-    val fragment: String? = httpUrl.fragment
+    val queryParameterValue: String = httpUrl.queryParameterValue(0)
+    val encodedFragment: String = httpUrl.encodedFragment
+    val fragment: String = httpUrl.fragment
     val redact: String = httpUrl.redact()
     var builder: HttpUrl.Builder = httpUrl.newBuilder()
     var resolveBuilder: HttpUrl.Builder? = httpUrl.newBuilder("")
-    val topPrivateDomain: String? = httpUrl.topPrivateDomain()
-    val resolve: HttpUrl? = httpUrl.resolve("")
+    val topPrivateDomain: String = httpUrl.topPrivateDomain()
+    val resolve: HttpUrl = httpUrl.resolve("")
     val getFromUrl: HttpUrl? = URL("").toHttpUrlOrNull()
     val getFromUri: HttpUrl? = URI("").toHttpUrlOrNull()
     val parse: HttpUrl? = "".toHttpUrlOrNull()
@@ -672,8 +672,8 @@ class KotlinSourceModernTest {
   @Test
   fun mediaType() {
     val mediaType: MediaType = "".toMediaType()
-    val defaultCharset: Charset? = mediaType.charset()
-    val charset: Charset? = mediaType.charset(Charsets.UTF_8)
+    val defaultCharset: Charset = mediaType.charset()
+    val charset: Charset = mediaType.charset(Charsets.UTF_8)
     val type: String = mediaType.type
     val subtype: String = mediaType.subtype
     val parse: MediaType? = "".toMediaTypeOrNull()
@@ -742,7 +742,7 @@ class KotlinSourceModernTest {
     mockWebServer.requestClientAuth()
     mockWebServer.requireClientAuth()
     val request: RecordedRequest = mockWebServer.takeRequest()
-    val nullableRequest: RecordedRequest? = mockWebServer.takeRequest(0L, TimeUnit.SECONDS)
+    val nullableRequest: RecordedRequest = mockWebServer.takeRequest(0L, TimeUnit.SECONDS)
     var requestCount: Int = mockWebServer.requestCount
     mockWebServer.enqueue(MockResponse())
     mockWebServer.start()
@@ -783,7 +783,7 @@ class KotlinSourceModernTest {
     part = MultipartBody.Part.createFormData("", "")
     part = MultipartBody.Part.createFormData("", "", requestBody)
     part = MultipartBody.Part.createFormData("", null, requestBody)
-    val headers: Headers? = part.headers
+    val headers: Headers = part.headers
     val body: RequestBody = part.body
   }
 
@@ -807,7 +807,7 @@ class KotlinSourceModernTest {
   fun okHttpClient() {
     val client: OkHttpClient = OkHttpClient()
     val dispatcher: Dispatcher = client.dispatcher
-    val proxy: Proxy? = client.proxy
+    val proxy: Proxy = client.proxy
     val protocols: List<Protocol> = client.protocols
     val connectionSpecs: List<ConnectionSpec> = client.connectionSpecs
     val interceptors: List<Interceptor> = client.interceptors
@@ -815,7 +815,7 @@ class KotlinSourceModernTest {
     val eventListenerFactory: EventListener.Factory = client.eventListenerFactory
     val proxySelector: ProxySelector = client.proxySelector
     val cookieJar: CookieJar = client.cookieJar
-    val cache: Cache? = client.cache
+    val cache: Cache = client.cache
     val socketFactory: SocketFactory = client.socketFactory
     val sslSocketFactory: SSLSocketFactory = client.sslSocketFactory
     val hostnameVerifier: HostnameVerifier = client.hostnameVerifier
@@ -937,7 +937,7 @@ class KotlinSourceModernTest {
     var method: String? = recordedRequest.method
     var path: String? = recordedRequest.path
     var headers: Headers = recordedRequest.headers
-    val header: String? = recordedRequest.getHeader("")
+    val header: String = recordedRequest.getHeader("")
     var chunkSizes: List<Int> = recordedRequest.chunkSizes
     var bodySize: Long = recordedRequest.bodySize
     var body: Buffer = recordedRequest.body
@@ -954,9 +954,9 @@ class KotlinSourceModernTest {
     val url: HttpUrl = request.url
     val method: String = request.method
     val headers: Headers = request.headers
-    val header: String? = request.header("")
+    val header: String = request.header("")
     val headersForName: List<String> = request.headers("")
-    val body: RequestBody? = request.body
+    val body: RequestBody = request.body
     var stringTag: String? = request.tag(String::class)
     stringTag = request.tag<String>()
     var tag: Any? = request.tag()
@@ -1033,18 +1033,18 @@ class KotlinSourceModernTest {
     val code: Int = response.code
     val successful: Boolean = response.isSuccessful
     val message: String = response.message
-    val handshake: Handshake? = response.handshake
+    val handshake: Handshake = response.handshake
     val headersForName: List<String> = response.headers("")
-    val header: String? = response.header("")
+    val header: String = response.header("")
     val headers: Headers = response.headers
     val trailers: Headers = response.trailers()
     val peekBody: ResponseBody = response.peekBody(0L)
     val body: ResponseBody = response.body
     val builder: Response.Builder = response.newBuilder()
     val redirect: Boolean = response.isRedirect
-    val networkResponse: Response? = response.networkResponse
-    val cacheResponse: Response? = response.cacheResponse
-    val priorResponse: Response? = response.priorResponse
+    val networkResponse: Response = response.networkResponse
+    val cacheResponse: Response = response.cacheResponse
+    val priorResponse: Response = response.priorResponse
     val challenges: List<Challenge> = response.challenges()
     val cacheControl: CacheControl = response.cacheControl
     val sentRequestAtMillis: Long = response.sentRequestAtMillis

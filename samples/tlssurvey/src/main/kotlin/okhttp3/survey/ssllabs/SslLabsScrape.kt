@@ -18,7 +18,6 @@ package okhttp3.survey.ssllabs
 import com.squareup.moshi.Moshi
 import okhttp3.Call
 import okhttp3.OkHttpClient
-import okhttp3.survey.ssllabs.SslLabsService
 import okhttp3.survey.types.Client
 import okhttp3.survey.types.SuiteId
 import retrofit2.Retrofit

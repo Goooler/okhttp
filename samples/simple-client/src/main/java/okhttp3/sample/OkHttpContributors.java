@@ -36,7 +36,7 @@ public class OkHttpContributors {
       List<Contributor> contributors = CONTRIBUTORS_JSON_ADAPTER.fromJson(body.source());
 
       // Sort list by the most contributions.
-      Collections.sort(contributors, (c1, c2) -> c2.contributions - c1.contributions);
+      contributors.sort((c1, c2) -> c2.contributions - c1.contributions);
 
       // Output list of contributors.
       for (Contributor contributor : contributors) {

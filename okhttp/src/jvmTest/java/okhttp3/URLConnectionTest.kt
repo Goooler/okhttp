@@ -446,7 +446,7 @@ class URLConnectionTest {
           Arrays.fill(buf, 'x'.code.toByte())
           var i = 0
           while (i < n) {
-            sink.write(buf, 0, Math.min(buf.size, n - i))
+            sink.write(buf, 0, min(buf.size, n - i))
             i += buf.size
           }
         }
@@ -595,7 +595,7 @@ class URLConnectionTest {
       .hostnameVerifier(
         RecordingHostnameVerifier()
       ) // Attempt RESTRICTED_TLS then fall back to MODERN_TLS.
-      .connectionSpecs(Arrays.asList(ConnectionSpec.RESTRICTED_TLS, ConnectionSpec.MODERN_TLS))
+      .connectionSpecs(listOf(ConnectionSpec.RESTRICTED_TLS, ConnectionSpec.MODERN_TLS))
       .sslSocketFactory(
         suppressTlsFallbackClientSocketFactory(), handshakeCertificates.trustManager
       )
@@ -621,7 +621,7 @@ class URLConnectionTest {
         .setSocketPolicy(SocketPolicy.FAIL_HANDSHAKE)
     )
     client = client.newBuilder()
-      .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+      .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
       .hostnameVerifier(RecordingHostnameVerifier())
       .sslSocketFactory(
         suppressTlsFallbackClientSocketFactory(), handshakeCertificates.trustManager
@@ -935,7 +935,7 @@ class URLConnectionTest {
     assertThat(get.requestLine).isEqualTo("GET /foo HTTP/1.1")
     assertThat(get.getHeader("Host")).isEqualTo("android.com")
     assertThat(hostnameVerifier.calls).isEqualTo(
-      Arrays.asList("verify android.com")
+      listOf("verify android.com")
     )
   }
 
@@ -1594,7 +1594,7 @@ class URLConnectionTest {
     val request = server.takeRequest()
     assertThat(request.body.readUtf8()).isEqualTo("ABCDEFGHIJKLMNOPQ")
     assertThat(request.chunkSizes).isEqualTo(
-      Arrays.asList("ABCDEFGHIJKLMNOPQ".length)
+      listOf("ABCDEFGHIJKLMNOPQ".length)
     )
   }
 
@@ -3702,7 +3702,7 @@ class URLConnectionTest {
         .setBody("A")
     )
     client = client.newBuilder()
-      .protocols(Arrays.asList(protocol, Protocol.HTTP_1_1))
+      .protocols(listOf(protocol, Protocol.HTTP_1_1))
       .build()
     val response = getResponse(newRequest("/"))
     assertThat(response.protocol).isEqualTo(protocol)
@@ -3775,7 +3775,7 @@ class URLConnectionTest {
         .setBody("A")
     )
     client = client.newBuilder()
-      .protocols(Arrays.asList(Protocol.HTTP_1_1))
+      .protocols(listOf(Protocol.HTTP_1_1))
       .build()
     assertContent("A", getResponse(newRequest("/")))
   }
@@ -3784,7 +3784,7 @@ class URLConnectionTest {
   fun setProtocolsWithoutHttp11() {
     try {
       OkHttpClient.Builder()
-        .protocols(Arrays.asList(Protocol.HTTP_2))
+        .protocols(listOf(Protocol.HTTP_2))
       fail<Any>()
     } catch (_: IllegalArgumentException) {
     }
@@ -3794,7 +3794,7 @@ class URLConnectionTest {
   fun setProtocolsWithNull() {
     try {
       OkHttpClient.Builder()
-        .protocols(Arrays.asList(Protocol.HTTP_1_1, null))
+        .protocols(listOf(Protocol.HTTP_1_1, null))
       fail<Any>()
     } catch (_: IllegalArgumentException) {
     }
@@ -3817,7 +3817,7 @@ class URLConnectionTest {
             val buffer = ByteArray(1024 * 1024)
             var bytesWritten: Long = 0
             while (bytesWritten < contentLength) {
-              val byteCount = Math.min(buffer.size.toLong(), contentLength - bytesWritten).toInt()
+              val byteCount = kotlin.math.min(buffer.size.toLong(), contentLength - bytesWritten).toInt()
               bytesWritten += byteCount.toLong()
               sink.write(buffer, 0, byteCount)
             }
@@ -3828,7 +3828,7 @@ class URLConnectionTest {
     assertContent("", response)
     val request = server.takeRequest()
     assertThat(request.getHeader("Content-Length")).isEqualTo(
-      java.lang.Long.toString(contentLength)
+      contentLength.toString()
     )
   }
 
@@ -4244,7 +4244,7 @@ class URLConnectionTest {
         handshakeCertificates.trustManager
       )
       .hostnameVerifier(RecordingHostnameVerifier())
-      .protocols(Arrays.asList(protocol, Protocol.HTTP_1_1))
+      .protocols(listOf(protocol, Protocol.HTTP_1_1))
       .build()
     server.useHttps(handshakeCertificates.sslSocketFactory())
     server.protocolNegotiationEnabled = true

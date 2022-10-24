@@ -35,7 +35,6 @@ import okhttp3.Headers.Builder
  *
  * Instances of this class are immutable. Use [Builder] to create instances.
  */
-@Suppress("NAME_SHADOWING")
 expect class Headers internal constructor(
   namesAndValues: Array<String>
 ) : Iterable<Pair<String, String>> {

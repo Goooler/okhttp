@@ -39,7 +39,6 @@ import org.junit.jupiter.api.fail
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 import org.junit.jupiter.api.BeforeEach
 
 @ExtendWith(MockWebServerExtension::class)
