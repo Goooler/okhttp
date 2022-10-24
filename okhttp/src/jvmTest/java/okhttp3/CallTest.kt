@@ -1885,7 +1885,7 @@ open class CallTest {
     val request = Request(server.url("/"))
     val response = client.newCall(request).execute()
     assertThat(response.code).isEqualTo(408)
-    assertThat(response.body!!.string()).isEqualTo("You took too long!")
+    assertThat(response.body.string()).isEqualTo("You took too long!")
   }
 
   @Test fun maxClientRequestTimeoutRetries() {
@@ -2742,6 +2742,34 @@ open class CallTest {
       .assertSuccessful()
     val recordedRequest = server.takeRequest()
     assertThat(recordedRequest.body.readUtf8()).isEqualTo("abc")
+  }
+
+  @Test fun serverRespondsWithEarlyHintsHttp2() {
+    enableProtocol(Protocol.HTTP_2)
+    serverRespondsWithEarlyHints()
+  }
+
+  @Test fun serverRespondsWithEarlyHints() {
+    val mockResponse = MockResponse()
+    server.enqueue(
+   mockResponse.apply {
+     addInformationalResponse(
+       MockResponse()
+         .setResponseCode(103)
+         .setHeaders(headersOf("Link", "</style.css>; rel=preload; as=style"))
+     )
+   }
+ )
+    val request = Request(
+      url = server.url("/"),
+      body = "abc".toRequestBody("text/plain".toMediaType()),
+    )
+    executeSynchronously(request)
+      .assertCode(200)
+      .assertSuccessful()
+    val recordedRequest = server.takeRequest()
+    assertThat(recordedRequest.body.readUtf8()).isEqualTo("abc")
+    assertThat(recordedRequest.headers["Link"]).isNull()
   }
 
   @Test fun serverRespondsWithUnsolicited100Continue_HTTP2() {
