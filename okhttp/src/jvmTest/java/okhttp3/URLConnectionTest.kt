@@ -1592,7 +1592,7 @@ class URLConnectionTest {
     )
     assertThat(response.code).isEqualTo(200)
     val request = server.takeRequest()
-    assertThat(request.body.readUtf8()).isEqualTo("ABCDEFGHIJKLMNOPQ")
+    assertThat(request.body!!.readUtf8()).isEqualTo("ABCDEFGHIJKLMNOPQ")
     assertThat(request.chunkSizes).isEqualTo(
       listOf("ABCDEFGHIJKLMNOPQ".length)
     )

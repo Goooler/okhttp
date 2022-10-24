@@ -249,7 +249,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body.readByteArray())
+    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
     assertThat(request.getHeader("Content-Length")).isNull()
   }
 
@@ -276,7 +276,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body.readByteArray())
+    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
     assertThat(request.getHeader("Content-Length")!!.toInt()).isEqualTo(
       postBytes.size.toLong()
     )
@@ -309,7 +309,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body.readByteArray())
+    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
     assertThat(request.getHeader("Content-Length")!!.toInt())
       .isEqualTo(postBytes.size.toLong())
   }

@@ -38,7 +38,7 @@ class MainTest {
     val request = fromArgs("-X", "PUT", "-d", "foo", "http://example.com").createRequest()
     assertThat(request.method).isEqualTo("PUT")
     assertThat(request.url.toString()).isEqualTo("http://example.com/")
-    assertThat(request.body.contentLength()).isEqualTo(3)
+    assertThat(request.body!!.contentLength()).isEqualTo(3)
   }
 
   @Test
