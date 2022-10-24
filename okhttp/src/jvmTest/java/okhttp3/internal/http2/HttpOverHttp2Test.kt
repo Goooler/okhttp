@@ -78,6 +78,7 @@ import okio.buffer
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Assumptions.assumeTrue
 import org.junit.jupiter.api.Disabled
@@ -249,7 +250,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
+    assertArrayEquals(postBytes, request.body.readByteArray())
     assertThat(request.getHeader("Content-Length")).isNull()
   }
 
@@ -276,7 +277,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
+    assertArrayEquals(postBytes, request.body.readByteArray())
     assertThat(request.getHeader("Content-Length")!!.toInt()).isEqualTo(
       postBytes.size.toLong()
     )
@@ -309,7 +310,7 @@ class HttpOverHttp2Test {
     assertThat(response.body.string()).isEqualTo("ABCDE")
     val request = server.takeRequest()
     assertThat(request.requestLine).isEqualTo("POST /foo HTTP/1.1")
-    org.junit.jupiter.api.Assertions.assertArrayEquals(postBytes, request.body!!.readByteArray())
+    assertArrayEquals(postBytes, request.body.readByteArray())
     assertThat(request.getHeader("Content-Length")!!.toInt())
       .isEqualTo(postBytes.size.toLong())
   }
