@@ -30,7 +30,7 @@ The `string()` method on response body is convenient and efficient for small doc
             println("$name: $value")
           }
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
     ```
@@ -82,7 +82,7 @@ Download a file on a worker thread, and get called back when the response is rea
                 println("$name: $value")
               }
 
-              println(response.body!!.string())
+              println(response.body.string())
             }
           }
         })
@@ -198,7 +198,7 @@ Use an HTTP POST to send a request body to a service. This example posts a markd
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
 
@@ -272,7 +272,7 @@ Here we `POST` a request body as a stream. The content of this request body is b
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
 
@@ -342,7 +342,7 @@ It's easy to use a file as a request body.
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
 
@@ -393,7 +393,7 @@ Use `FormBody.Builder` to build a request body that works like an HTML `<form>` 
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
     ```
@@ -444,7 +444,7 @@ Use `FormBody.Builder` to build a request body that works like an HTML `<form>` 
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
 
@@ -510,7 +510,7 @@ Note that `ResponseBody.charStream()` uses the `Content-Type` response header to
         client.newCall(request).execute().use { response ->
           if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-          val gist = gistJsonAdapter.fromJson(response.body!!.source())
+          val gist = gistJsonAdapter.fromJson(response.body.source())
 
           for ((key, value) in gist!!.files!!) {
             println(key)
@@ -584,7 +584,7 @@ Response caching uses HTTP headers for all configuration. You can add request he
           println("Response 1 response:          $it")
           println("Response 1 cache response:    ${it.cacheResponse}")
           println("Response 1 network response:  ${it.networkResponse}")
-          return@use it.body!!.string()
+          return@use it.body.string()
         }
 
         val response2Body = client.newCall(request).execute().use {
@@ -593,7 +593,7 @@ Response caching uses HTTP headers for all configuration. You can add request he
           println("Response 2 response:          $it")
           println("Response 2 cache response:    ${it.cacheResponse}")
           println("Response 2 network response:  ${it.networkResponse}")
-          return@use it.body!!.string()
+          return@use it.body.string()
         }
 
         println("Response 2 equals Response 1? " + (response1Body == response2Body))

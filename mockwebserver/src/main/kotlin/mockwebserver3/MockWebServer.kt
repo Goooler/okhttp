@@ -523,8 +523,8 @@ class MockWebServer : Closeable {
         }
         else -> {
           protocol = when (Protocol.H2_PRIOR_KNOWLEDGE) {
-              in protocols -> Protocol.H2_PRIOR_KNOWLEDGE
-              else -> Protocol.HTTP_1_1
+            in protocols -> Protocol.H2_PRIOR_KNOWLEDGE
+            else -> Protocol.HTTP_1_1
           }
           socket = raw
         }

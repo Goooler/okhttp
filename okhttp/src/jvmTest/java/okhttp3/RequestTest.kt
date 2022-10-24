@@ -198,7 +198,7 @@ class RequestTest {
 
     val delete = Request.Builder().url("http://localhost/api").delete().build()
     assertThat(delete.method).isEqualTo("DELETE")
-    assertThat(delete.body!!.contentLength()).isEqualTo(0L)
+    assertThat(delete.body.contentLength()).isEqualTo(0L)
 
     val post = Request.Builder().url("http://localhost/api").post(body).build()
     assertThat(post.method).isEqualTo("POST")
@@ -489,7 +489,7 @@ class RequestTest {
     assertThat(requestB.tag(String::class.java)).isSameAs("b")
     assertThat(requestC.tag(String::class.java)).isSameAs("c")
   }
-  
+
   @Test
   fun requestToStringRedactsSensitiveHeaders() {
     val headers = Headers.Builder()

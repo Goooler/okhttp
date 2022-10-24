@@ -38,7 +38,7 @@ class SampleTest {
     val client = clientRule.newClient()
 
     client.newCall(Request.Builder().url(server.url("/")).build()).execute().use {
-      assertThat(it.body!!.string()).isEqualTo("abc")
+      assertThat(it.body.string()).isEqualTo("abc")
     }
   }
 

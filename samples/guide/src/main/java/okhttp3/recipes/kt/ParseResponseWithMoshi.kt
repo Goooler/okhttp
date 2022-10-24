@@ -33,7 +33,7 @@ class ParseResponseWithMoshi {
     client.newCall(request).execute().use { response ->
       if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
-      val gist = gistJsonAdapter.fromJson(response.body!!.source())
+      val gist = gistJsonAdapter.fromJson(response.body.source())
 
       for ((key, value) in gist!!.files!!) {
         println(key)

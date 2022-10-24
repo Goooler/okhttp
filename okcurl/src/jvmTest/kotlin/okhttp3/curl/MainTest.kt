@@ -38,7 +38,7 @@ class MainTest {
     val request = fromArgs("-X", "PUT", "-d", "foo", "http://example.com").createRequest()
     assertThat(request.method).isEqualTo("PUT")
     assertThat(request.url.toString()).isEqualTo("http://example.com/")
-    assertThat(request.body!!.contentLength()).isEqualTo(3)
+    assertThat(request.body.contentLength()).isEqualTo(3)
   }
 
   @Test
@@ -47,7 +47,7 @@ class MainTest {
     val body = request.body
     assertThat(request.method).isEqualTo("POST")
     assertThat(request.url.toString()).isEqualTo("http://example.com/")
-    assertThat(body!!.contentType().toString()).isEqualTo(
+    assertThat(body.contentType().toString()).isEqualTo(
       "application/x-www-form-urlencoded; charset=utf-8"
     )
     assertThat(bodyAsString(body)).isEqualTo("foo")
@@ -59,7 +59,7 @@ class MainTest {
     val body = request.body
     assertThat(request.method).isEqualTo("PUT")
     assertThat(request.url.toString()).isEqualTo("http://example.com/")
-    assertThat(body!!.contentType().toString()).isEqualTo(
+    assertThat(body.contentType().toString()).isEqualTo(
       "application/x-www-form-urlencoded; charset=utf-8"
     )
     assertThat(bodyAsString(body)).isEqualTo("foo")
@@ -74,7 +74,7 @@ class MainTest {
     val body = request.body
     assertThat(request.method).isEqualTo("POST")
     assertThat(request.url.toString()).isEqualTo("http://example.com/")
-    assertThat(body!!.contentType().toString())
+    assertThat(body.contentType().toString())
       .isEqualTo("application/json; charset=utf-8")
     assertThat(bodyAsString(body)).isEqualTo("foo")
   }
@@ -124,7 +124,7 @@ class MainTest {
     private fun bodyAsString(body: RequestBody?): String {
       return try {
         val buffer = Buffer()
-        body!!.writeTo(buffer)
+        body.writeTo(buffer)
         buffer.readString(body.contentType()!!.charset()!!)
       } catch (e: IOException) {
         throw RuntimeException(e)

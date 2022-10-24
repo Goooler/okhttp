@@ -148,7 +148,7 @@ The full code sample shows how to replace the host platform’s certificate auth
             println("$name: $value")
           }
 
-          println(response.body!!.string())
+          println(response.body.string())
         }
       }
 
